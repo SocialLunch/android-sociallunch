@@ -4,5 +4,7 @@
     <string name="app_name">SocialLunch</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_create_profile">What foods do you like?</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
 
 </resources>

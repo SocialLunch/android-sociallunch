@@ -1,4 +1,4 @@
-package com.example.sociallunch.sociallunch;
+package com.sociallunch.android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

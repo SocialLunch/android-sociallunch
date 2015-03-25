@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.example.sociallunch.sociallunch.activities.CreateProfileActivity">
+                tools:context="com.sociallunch.android.activities.CreateProfileActivity">
     <com.andtinder.view.CardContainer
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mCardContainer"

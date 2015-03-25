@@ -1,4 +1,4 @@
-package com.example.sociallunch.sociallunch.activities;
+package com.sociallunch.android.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,9 +11,8 @@ import android.view.MenuItem;
 import com.andtinder.model.CardModel;
 import com.andtinder.view.CardContainer;
 import com.andtinder.view.SimpleCardStackAdapter;
-import com.example.sociallunch.sociallunch.R;
-import com.example.sociallunch.sociallunch.models.User;
-
+import com.sociallunch.android.R;
+import com.sociallunch.android.models.User;
 
 import java.util.ArrayList;
 

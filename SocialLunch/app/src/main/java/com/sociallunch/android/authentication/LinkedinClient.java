@@ -1,4 +1,4 @@
-package com.example.sociallunch.sociallunch.authentication;
+package com.sociallunch.android.authentication;
 
 import android.content.Context;
 

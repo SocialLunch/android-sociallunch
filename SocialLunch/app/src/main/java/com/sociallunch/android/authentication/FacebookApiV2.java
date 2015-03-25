@@ -1,4 +1,4 @@
-package com.example.sociallunch.sociallunch.authentication;
+package com.sociallunch.android.authentication;
 
 /**
  * Created by kelei on 3/22/15.

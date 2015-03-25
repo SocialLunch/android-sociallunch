@@ -1,4 +1,4 @@
-package com.example.sociallunch.sociallunch.activities;
+package com.sociallunch.android.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
-import com.example.sociallunch.sociallunch.OAuthApplication;
-import com.example.sociallunch.sociallunch.R;
-import com.example.sociallunch.sociallunch.authentication.LinkedinClient;
-import com.example.sociallunch.sociallunch.models.User;
+import com.sociallunch.android.OAuthApplication;
+import com.sociallunch.android.R;
+import com.sociallunch.android.authentication.LinkedinClient;
+import com.sociallunch.android.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;

@@ -1,11 +1,11 @@
-package com.example.sociallunch.sociallunch;
+package com.sociallunch.android;
 
 import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.sociallunch.sociallunch.authentication.FacebookClient;
-import com.example.sociallunch.sociallunch.authentication.LinkedinClient;
-import com.example.sociallunch.sociallunch.authentication.TwitterClient;
+import com.sociallunch.android.authentication.FacebookClient;
+import com.sociallunch.android.authentication.LinkedinClient;
+import com.sociallunch.android.authentication.TwitterClient;
 
 /**
  * Created by kelei on 3/22/15.

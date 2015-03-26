@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".OAuthApplication"
+        android:name=".application.OAuthApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -45,6 +45,10 @@
         <activity
             android:name=".activities.HomePageActivity"
             android:label="@string/title_activity_home_page" >
+        </activity>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:label="@string/title_activity_chat" >
         </activity>
     </application>
 

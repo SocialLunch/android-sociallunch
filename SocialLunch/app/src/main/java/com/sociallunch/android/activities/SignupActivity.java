@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
-import com.sociallunch.android.OAuthApplication;
+import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.R;
 import com.sociallunch.android.authentication.LinkedinClient;
 import com.sociallunch.android.models.User;

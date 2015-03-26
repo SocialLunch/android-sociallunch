@@ -1,8 +1,9 @@
-package com.sociallunch.android;
+package com.sociallunch.android.application;
 
 import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
+import com.firebase.client.Firebase;
 import com.sociallunch.android.authentication.FacebookClient;
 import com.sociallunch.android.authentication.LinkedinClient;
 import com.sociallunch.android.authentication.TwitterClient;
@@ -18,6 +19,7 @@ public class OAuthApplication extends com.activeandroid.app.Application {
     public void onCreate() {
         super.onCreate();
         OAuthApplication.context = this;
+        Firebase.setAndroidContext(this);
         ActiveAndroid.initialize(this);
     }
 

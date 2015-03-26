@@ -13,11 +13,15 @@ import android.widget.ListView;
 import com.sociallunch.android.R;
 import com.sociallunch.android.fragments.ProfileFragment;
 import com.sociallunch.android.fragments.SearchFragment;
+import com.sociallunch.android.fragments.SearchListFragment;
+import com.sociallunch.android.fragments.SearchMapFragment;
 import com.sociallunch.android.fragments.SessionsFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
 
 public class MainActivity extends ActionBarActivity implements
         SearchFragment.OnFragmentInteractionListener,
+        SearchListFragment.OnFragmentInteractionListener,
+        SearchMapFragment.OnFragmentInteractionListener,
         SessionsFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
     private FragmentNavigationDrawer dlDrawer;

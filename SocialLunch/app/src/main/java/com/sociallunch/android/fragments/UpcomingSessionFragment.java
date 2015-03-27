@@ -1,14 +1,17 @@
 package com.sociallunch.android.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.sociallunch.android.R;
+import com.sociallunch.android.activities.ChatActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +68,15 @@ public class UpcomingSessionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upcoming_session, container, false);
+        View view = inflater.inflate(R.layout.fragment_upcoming_session, container, false);
+        final Button button = (Button) view.findViewById(R.id.btnChat);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ChatActivity.class);
+                startActivity(i);
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

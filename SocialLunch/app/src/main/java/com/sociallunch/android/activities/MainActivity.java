@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.fragments.ProfileFragment;
@@ -63,10 +63,9 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        // Uncomment to inflate menu items to Action Bar
-        // inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
@@ -75,6 +74,20 @@ public class MainActivity extends ActionBarActivity implements
         // ActionBarDrawerToggle will take care of this.
         if (dlDrawer.getDrawerToggle().onOptionsItemSelected(item)) {
             return true;
+        } else {
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            int id = item.getItemId();
+
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_search) {
+                Toast.makeText(this, getString(R.string.action_search), Toast.LENGTH_SHORT).show();//TODO-TEMP
+                return true;
+            } else if (id == R.id.action_filter) {
+                Toast.makeText(this, getString(R.string.action_filter), Toast.LENGTH_SHORT).show();//TODO-TEMP
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

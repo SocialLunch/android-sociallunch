@@ -3,12 +3,14 @@ package com.sociallunch.android.fragments;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.sociallunch.android.R;
+import com.sociallunch.android.fragments.dummy.DummyContent;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +20,7 @@ import com.sociallunch.android.R;
  * Use the {@link SearchListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchListFragment extends Fragment {
+public class SearchListFragment extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,13 +61,10 @@ public class SearchListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_list, container, false);
+        // TODO: Change Adapter to display your content
+        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

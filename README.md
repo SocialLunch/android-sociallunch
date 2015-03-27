@@ -73,5 +73,14 @@ The user stories are divided into 3 main sections:
 ## Wireframes
 You may check out the wireframes at https://thelunchapp.mybalsamiq.com/projects/wires/Social%20Lunch
 
-![Alt text](/Cap.gif?raw=true "Integrated Chat")
+## Demos
+
+### 1. Onboarding
+![Alt text](/gifs/onboarding/20150326.gif?raw=true "Social Login")
+
+### 2. Discovery
+![Alt text](/gifs/discovery/20150326.gif?raw=true "Main Navigation")
+
+### 3. Communication
+![Alt text](/gifs/communication/20150326.gif?raw=true "Integrated Chat")
 

@@ -91,7 +91,7 @@ public class CreateProfileActivity extends ActionBarActivity {
             user.setFoodsLiked(TextUtils.join(",", foodsLiked));
         }
 
-        Intent i = new Intent(this, HomePageActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
 

@@ -23,7 +23,6 @@ public class SignupActivity extends OAuthLoginActionBarActivity<LinkedinClient> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getSupportActionBar().hide();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class SignupActivity extends OAuthLoginActionBarActivity<LinkedinClient> 
                     Intent i = new Intent(SignupActivity.this, CreateProfileActivity.class);
                     startActivity(i);
                 } else {
-                    Intent i = new Intent(SignupActivity.this, HomePageActivity.class);
+                    Intent i = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(i);
                 }
             }

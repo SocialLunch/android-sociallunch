@@ -15,14 +15,14 @@ import com.sociallunch.android.fragments.ProfileFragment;
 import com.sociallunch.android.fragments.SearchFragment;
 import com.sociallunch.android.fragments.SearchListFragment;
 import com.sociallunch.android.fragments.SearchMapFragment;
-import com.sociallunch.android.fragments.SessionsFragment;
+import com.sociallunch.android.fragments.UpcomingSessionFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
 
 public class MainActivity extends ActionBarActivity implements
         SearchFragment.OnFragmentInteractionListener,
         SearchListFragment.OnFragmentInteractionListener,
         SearchMapFragment.OnFragmentInteractionListener,
-        SessionsFragment.OnFragmentInteractionListener,
+        UpcomingSessionFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
     private FragmentNavigationDrawer dlDrawer;
 
@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
         dlDrawer.addNavItem(getString(R.string.search_fragment_title), R.drawable.ic_nav_search, getString(R.string.search_fragment_title), SearchFragment.class);
-        dlDrawer.addNavItem(getString(R.string.sessions_fragment_title), R.drawable.ic_nav_sessions, getString(R.string.sessions_fragment_title), SessionsFragment.class);
+        dlDrawer.addNavItem(getString(R.string.upcoming_session_fragment_title), R.drawable.ic_nav_sessions, getString(R.string.upcoming_session_fragment_title), UpcomingSessionFragment.class);
         dlDrawer.addNavItem(getString(R.string.profile_fragment_title), R.drawable.ic_nav_profile, getString(R.string.profile_fragment_title), ProfileFragment.class);
         // Select default
         if (savedInstanceState == null) {

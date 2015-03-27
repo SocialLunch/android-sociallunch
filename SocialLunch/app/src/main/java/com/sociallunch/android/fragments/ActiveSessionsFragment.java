@@ -4,26 +4,21 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.sociallunch.android.R;
-import com.sociallunch.android.adapters.SessionsFragmentPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SessionsFragment.OnFragmentInteractionListener} interface
+ * {@link ActiveSessionsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SessionsFragment#newInstance} factory method to
+ * Use the {@link ActiveSessionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SessionsFragment extends Fragment {
-    private SessionsFragmentPagerAdapter sessionsFragmentPagerAdapter;
-
+public class ActiveSessionsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,19 +36,19 @@ public class SessionsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SessionsFragment.
+     * @return A new instance of fragment ActiveSessionsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SessionsFragment newInstance(String param1, String param2) {
-        SessionsFragment fragment = new SessionsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static ActiveSessionsFragment newInstance(/*String param1, String param2*/) {
+        ActiveSessionsFragment fragment = new ActiveSessionsFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
-    public SessionsFragment() {
+    public ActiveSessionsFragment() {
         // Required empty public constructor
     }
 
@@ -70,21 +65,7 @@ public class SessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sessions, container, false);
-
-        sessionsFragmentPagerAdapter = new SessionsFragmentPagerAdapter(getActivity().getSupportFragmentManager());
-
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPager.setAdapter(sessionsFragmentPagerAdapter);
-
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabsStrip.setShouldExpand(true);    // has to be invoked before setting view pager
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(viewPager);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_active_sessions, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

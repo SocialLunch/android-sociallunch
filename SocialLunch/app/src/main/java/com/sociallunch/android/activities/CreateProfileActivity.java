@@ -14,10 +14,10 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.sociallunch.android.R;
 import com.sociallunch.android.application.OAuthApplication;
+import com.sociallunch.android.models.User;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -95,10 +95,11 @@ public class CreateProfileActivity extends ActionBarActivity {
         }
 
         Firebase ref = application.getFirebaseRef().child("user");
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("foodsDisliked", TextUtils.join(",", foodsDisliked));
-        data.put("foodsLiked", TextUtils.join(",", foodsLiked));
-        ref.child(authData.getUid()).setValue(data);
+        User user = User.fromAuthData(authData);
+        user.setFoodsLiked(TextUtils.join(",", foodsLiked));
+        user.setFoodsDisliked(TextUtils.join(",", foodsDisliked));
+        application.setCurrentUser(user);
+        ref.child(authData.getUid()).setValue(user);
 
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

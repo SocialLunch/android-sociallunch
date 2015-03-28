@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -31,6 +32,7 @@ public class SignupActivity extends ActionBarActivity {
 
     private CallbackManager callbackManager;
     private Firebase mFirebaseRef;
+    private AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +41,42 @@ public class SignupActivity extends ActionBarActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
 
+        callbackManager = CallbackManager.Factory.create();
         OAuthApplication application = (OAuthApplication) getApplication();
-        if (AccessToken.getCurrentAccessToken() != null) {
-            authenticateWithFirebase(AccessToken.getCurrentAccessToken().getToken());
-        } else {
-            mFirebaseRef = application.getFirebaseRef();
-            ArrayList<String> readPermissions = new ArrayList<>();
-            readPermissions.add("user_friends");
-            readPermissions.add("public_profile");
-            readPermissions.add("email");
-            callbackManager = CallbackManager.Factory.create();
-            mFacebookLoginButton.setReadPermissions(readPermissions);
-            mFacebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    authenticateWithFirebase(loginResult.getAccessToken().getToken());
+        mFirebaseRef = application.getFirebaseRef();
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
+                if (newAccessToken != null) {
+                    authenticateWithFirebase(newAccessToken.getToken());
+                } else {
+                    setupLogin();
                 }
+            }
+        };
+    }
 
-                @Override
-                public void onCancel() {
-                }
+    public void setupLogin() {
+        OAuthApplication application = (OAuthApplication) getApplication();
+        ArrayList<String> readPermissions = new ArrayList<>();
+        readPermissions.add("user_friends");
+        readPermissions.add("public_profile");
+        readPermissions.add("email");
+        mFacebookLoginButton.setReadPermissions(readPermissions);
+        mFacebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                authenticateWithFirebase(loginResult.getAccessToken().getToken());
+            }
 
-                @Override
-                public void onError(FacebookException exception) {
-                }
-            });
-        }
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+            }
+        });
     }
 
     @Override
@@ -108,5 +120,11 @@ public class SignupActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
     }
 }

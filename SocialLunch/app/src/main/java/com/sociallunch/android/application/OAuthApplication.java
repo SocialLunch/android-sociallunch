@@ -3,10 +3,8 @@ package com.sociallunch.android.application;
 import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-import com.sociallunch.android.authentication.FacebookClient;
-import com.sociallunch.android.authentication.LinkedinClient;
-import com.sociallunch.android.authentication.TwitterClient;
 
 /**
  * Created by kelei on 3/22/15.
@@ -14,6 +12,8 @@ import com.sociallunch.android.authentication.TwitterClient;
 
 public class OAuthApplication extends com.activeandroid.app.Application {
     private static Context context;
+    private Firebase _ref;
+    private AuthData _authData;
 
     @Override
     public void onCreate() {
@@ -21,20 +21,18 @@ public class OAuthApplication extends com.activeandroid.app.Application {
         OAuthApplication.context = this;
         Firebase.setAndroidContext(this);
         ActiveAndroid.initialize(this);
+        _ref = new Firebase("https://torrid-torch-5195.firebaseio.com");
     }
 
-    public static FacebookClient getFacebookClient() {
-        return (FacebookClient) FacebookClient
-            .getInstance(FacebookClient.class, OAuthApplication.context);
+    public Firebase getFirebaseRef() {
+        return _ref;
     }
 
-    public static LinkedinClient getLinkedinClient() {
-        return (LinkedinClient) FacebookClient
-            .getInstance(LinkedinClient.class, OAuthApplication.context);
+    public AuthData getAuthData() {
+        return _authData;
     }
 
-    public static TwitterClient getTwitterClient() {
-        return (TwitterClient) TwitterClient
-            .getInstance(TwitterClient.class, OAuthApplication.context);
+    public void setAuthData(AuthData authData) {
+        _authData = authData;
     }
 }

@@ -30,33 +30,24 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="8" />
-
+        <activity android:name="com.facebook.FacebookActivity"
+                  android:configChanges=
+                      "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                  android:label="@string/app_name" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id"/>
         <activity
             android:name=".activities.SignupActivity"
             android:label="@string/app_name" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="simplelunch"
-                    android:scheme="oauth" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.CreateProfileActivity"
             android:label="@string/title_activity_create_profile" >
-        </activity>
-        <activity
-            android:name=".activities.HomePageActivity"
-            android:label="@string/title_activity_home_page" >
         </activity>
         <activity
             android:name=".activities.ChatActivity"
@@ -65,11 +56,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <uses-library android:required="true" android:name="com.google.android.maps" />

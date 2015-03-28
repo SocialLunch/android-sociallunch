@@ -18,13 +18,13 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.ChatListAdapter;
+import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.Chat;
+
 
 import java.util.Random;
 
 public class ChatActivity extends ListActivity {
-
-    private static final String FIREBASE_URL = "https://torrid-torch-5195.firebaseio.com";
 
     private String mUsername;
     private Firebase mFirebaseRef;
@@ -40,7 +40,8 @@ public class ChatActivity extends ListActivity {
 
         setTitle("Chatting as " + mUsername);
 
-        mFirebaseRef = new Firebase(FIREBASE_URL).child("chat");
+        OAuthApplication application = (OAuthApplication) getApplication();
+        mFirebaseRef = application.getFirebaseRef().child("chat");
 
         EditText inputText = (EditText) findViewById(R.id.messageInput);
         inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

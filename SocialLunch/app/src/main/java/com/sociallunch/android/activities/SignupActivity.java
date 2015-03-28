@@ -1,28 +1,70 @@
 package com.sociallunch.android.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.codepath.oauth.OAuthLoginActionBarActivity;
-import com.sociallunch.android.application.OAuthApplication;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.sociallunch.android.R;
-import com.sociallunch.android.authentication.LinkedinClient;
-import com.sociallunch.android.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.json.JSONObject;
+import com.sociallunch.android.application.OAuthApplication;
 
 
-public class SignupActivity extends OAuthLoginActionBarActivity<LinkedinClient> {
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+
+public class SignupActivity extends ActionBarActivity {
+    @InjectView(R.id.login_button) LoginButton mFacebookLoginButton;
+
+    private CallbackManager callbackManager;
+    private Firebase mFirebaseRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_signup);
+        ButterKnife.inject(this);
+
+        OAuthApplication application = (OAuthApplication) getApplication();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            authenticateWithFirebase(AccessToken.getCurrentAccessToken().getToken());
+        } else {
+            mFirebaseRef = application.getFirebaseRef();
+            ArrayList<String> readPermissions = new ArrayList<>();
+            readPermissions.add("user_friends");
+            readPermissions.add("public_profile");
+            readPermissions.add("email");
+            callbackManager = CallbackManager.Factory.create();
+            mFacebookLoginButton.setReadPermissions(readPermissions);
+            mFacebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    authenticateWithFirebase(loginResult.getAccessToken().getToken());
+                }
+
+                @Override
+                public void onCancel() {
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                }
+            });
+        }
     }
 
     @Override
@@ -30,6 +72,22 @@ public class SignupActivity extends OAuthLoginActionBarActivity<LinkedinClient> 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_signup, menu);
         return true;
+    }
+
+    public void authenticateWithFirebase(String token) {
+        final OAuthApplication application = (OAuthApplication) getApplication();
+        mFirebaseRef.authWithOAuthToken("facebook", token, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                application.setAuthData(authData);
+                goToNextFragment();
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -41,49 +99,14 @@ public class SignupActivity extends OAuthLoginActionBarActivity<LinkedinClient> 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLinkedinConnect(View v) {
-        LinkedinClient client = OAuthApplication.getLinkedinClient();
-        client.connect();
+    public void goToNextFragment() {
+        Intent i = new Intent(SignupActivity.this, CreateProfileActivity.class);
+        startActivity(i);
     }
 
     @Override
-    public void onLoginSuccess() {
-        LinkedinClient client = OAuthApplication.getLinkedinClient();
-        client.getProfile(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-                User user = User.fromJSON(response, false);
-                User storedUser = User.byId(user.getUid());
-
-                SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("uid", user.getUid());
-                editor.commit();
-
-                if (storedUser == null) {
-                    // New user
-                    user.save();
-                    Intent i = new Intent(SignupActivity.this, CreateProfileActivity.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(SignupActivity.this, MainActivity.class);
-                    startActivity(i);
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-                JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
-
-    // Fires if the authentication process fails for any reason.
-    @Override
-    public void onLoginFailure(Exception e) {
-        e.printStackTrace();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

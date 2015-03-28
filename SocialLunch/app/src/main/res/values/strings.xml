@@ -14,5 +14,6 @@
     <string name="search_fragment_title">Find lunch buddies</string>
     <string name="upcoming_session_fragment_title">Upcoming lunch</string>
     <string name="profile_fragment_title">Profile</string>
+    <string name="fb_app_id">1423528877943479</string>
 
 </resources>

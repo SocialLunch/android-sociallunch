@@ -1,7 +1,6 @@
 package com.sociallunch.android.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
@@ -11,10 +10,14 @@ import android.view.MenuItem;
 import com.andtinder.model.CardModel;
 import com.andtinder.view.CardContainer;
 import com.andtinder.view.SimpleCardStackAdapter;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 import com.sociallunch.android.R;
-import com.sociallunch.android.models.User;
+import com.sociallunch.android.application.OAuthApplication;
+
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -83,13 +86,19 @@ public class CreateProfileActivity extends ActionBarActivity {
     }
 
     private void saveAndNavigateToHomepage() {
-        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-        String uid = settings.getString("uid", null);
-        User user = User.byId(uid);
-        if (user != null) {
-            user.setFoodsDisliked(TextUtils.join(",", foodsDisliked));
-            user.setFoodsLiked(TextUtils.join(",", foodsLiked));
+        OAuthApplication application = (OAuthApplication) getApplication();
+        AuthData authData = application.getAuthData();
+        if (authData == null) {
+            Intent i = new Intent(this, SignupActivity.class);
+            startActivity(i);
+            return;
         }
+
+        Firebase ref = application.getFirebaseRef().child("user");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("foodsDisliked", TextUtils.join(",", foodsDisliked));
+        data.put("foodsLiked", TextUtils.join(",", foodsLiked));
+        ref.child(authData.getUid()).setValue(data);
 
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

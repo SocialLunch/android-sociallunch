@@ -6,10 +6,8 @@ android {
         exclude 'META-INF/LICENSE-FIREBASE.txt'
         exclude 'META-INF/NOTICE'
     }
-
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "com.sociallunch.android"
         minSdkVersion 16
@@ -25,6 +23,8 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+    }
+    productFlavors {
     }
 }
 
@@ -46,6 +46,7 @@ dependencies {
     compile 'com.github.kikoso:SwipeableCards:1.1-RELEASE@aar'
     compile 'com.firebase:firebase-client-android:2.0.3+'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
-    // Sliding view pager
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.joanzapata.android:android-iconify:1.0.9'
+    compile 'com.squareup.picasso:picasso:2.4.0'
 }

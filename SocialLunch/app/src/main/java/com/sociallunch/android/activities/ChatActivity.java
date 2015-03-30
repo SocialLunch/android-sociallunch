@@ -1,7 +1,6 @@
 package com.sociallunch.android.activities;
 
 import android.app.ListActivity;
-import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,13 +19,12 @@ import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.ChatListAdapter;
 import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.Chat;
-
-
-import java.util.Random;
+import com.sociallunch.android.models.User;
 
 public class ChatActivity extends ListActivity {
 
-    private String mUsername;
+    private User user;
+    private String identifier;
     private Firebase mFirebaseRef;
     private ValueEventListener mConnectedListener;
     private ChatListAdapter mChatListAdapter;
@@ -36,12 +34,14 @@ public class ChatActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        setupUsername();
+        Bundle b = getIntent().getExtras();
+        user = b.getParcelable("user");
+        identifier = b.getString("identifier");
 
-        setTitle("Chatting as " + mUsername);
+        setTitle("Chatting as " + user.getFullName());
 
         OAuthApplication application = (OAuthApplication) getApplication();
-        mFirebaseRef = application.getFirebaseRef().child("chat");
+        mFirebaseRef = application.getFirebaseRef().child("chat").child(identifier);
 
         EditText inputText = (EditText) findViewById(R.id.messageInput);
         inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -67,7 +67,7 @@ public class ChatActivity extends ListActivity {
     public void onStart() {
         super.onStart();
         final ListView listView = getListView();
-        mChatListAdapter = new ChatListAdapter(mFirebaseRef.limit(50), this, R.layout.chat_message, mUsername);
+        mChatListAdapter = new ChatListAdapter(mFirebaseRef.limit(50), this, R.layout.chat_message, user.getUid());
         listView.setAdapter(mChatListAdapter);
         mChatListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -90,7 +90,7 @@ public class ChatActivity extends ListActivity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                // No-op
+                Toast.makeText(ChatActivity.this, "Firebase Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,22 +102,11 @@ public class ChatActivity extends ListActivity {
         mChatListAdapter.cleanup();
     }
 
-    private void setupUsername() {
-        SharedPreferences prefs = getApplication().getSharedPreferences("ChatPrefs", 0);
-        mUsername = prefs.getString("username", null);
-        if (mUsername == null) {
-            Random r = new Random();
-            // Assign a random user name if we don't have one saved.
-            mUsername = "JavaUser" + r.nextInt(100000);
-            prefs.edit().putString("username", mUsername).commit();
-        }
-    }
-
     private void sendMessage() {
         EditText inputText = (EditText) findViewById(R.id.messageInput);
         String input = inputText.getText().toString();
         if (!input.equals("")) {
-            Chat chat = new Chat(input, mUsername);
+            Chat chat = new Chat(input, user.getFullName(), user.getProfileImage());
             mFirebaseRef.push().setValue(chat);
             inputText.setText("");
         }

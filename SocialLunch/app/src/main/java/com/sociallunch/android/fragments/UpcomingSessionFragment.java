@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.activities.ChatActivity;
+import com.sociallunch.android.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +74,9 @@ public class UpcomingSessionFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ChatActivity.class);
+                User user = new User();
+                i.putExtra("user", user);
+                i.putExtra("identifier","1234");
                 startActivity(i);
             }
         });

@@ -17,5 +17,10 @@
     <string name="profile_fragment_title">Profile</string>
     <string name="label_list">List</string>
     <string name="label_map">Map</string>
+    <string name="create_suggestion_title">Create suggestion</string>
+    <string name="create_suggestion_label_venue_default">Pick a venue</string>
+    <string name="create_suggestion_label_meeting_time_default">Pick a meeting time</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_suggest">Suggest</string>
 
 </resources>

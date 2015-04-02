@@ -29,8 +29,6 @@ public class ChatListAdapter extends FirebaseListAdapter<Chat> {
         ImageView ivAuthorImage = (ImageView) view.findViewById(R.id.ivAuthorImage);
         authorText.setText(author + ": ");
         if (author != null && author.equals(mUsername)) {
-            authorText.setTextColor(Color.RED);
-        } else {
             authorText.setTextColor(Color.BLUE);
         }
         if (imageURL != null) {

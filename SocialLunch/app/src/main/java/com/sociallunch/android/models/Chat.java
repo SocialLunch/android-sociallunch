@@ -4,7 +4,6 @@ public class Chat {
 
     private String message;
     private String author;
-
     private String profileImageURL;
 
     private Chat() {

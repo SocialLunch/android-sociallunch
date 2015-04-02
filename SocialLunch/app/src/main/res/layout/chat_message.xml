@@ -18,7 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/llAuthor"
         android:layout_toRightOf="@id/ivAuthorImage">
 
@@ -28,7 +31,8 @@
             android:layout_margin="5dp"
             android:layout_height="wrap_content"
             android:textColor="#8D1263"
-            android:text="Jonny Appleseed" />
+            android:text="Jonny Appleseed"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/time"
@@ -36,8 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="20dp"
-            android:text="5min Ago" />
+            android:layout_marginLeft="60dp"
+            android:text="5min Ago"
+            android:textColor="@color/accent_material_light" />
         </LinearLayout>
 
     <TextView

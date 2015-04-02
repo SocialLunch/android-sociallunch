@@ -23,7 +23,13 @@ public class MainActivity extends ActionBarActivity implements
         SearchMapFragment.OnFragmentInteractionListener,
         UpcomingSessionFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener {
+    public enum NavDrawerSelectedIndex {
+        SEARCH,
+        UPCOMING_SESSION,
+        PROFILE
+    }
     private FragmentNavigationDrawer dlDrawer;
+    private NavDrawerSelectedIndex navDrawerSelectedIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,11 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (navDrawerSelectedIndex == NavDrawerSelectedIndex.SEARCH) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+        }
+
         return true;
     }
 
@@ -107,5 +117,26 @@ public class MainActivity extends ActionBarActivity implements
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         dlDrawer.getDrawerToggle().onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onSearchFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.SEARCH;
+        setTitle(getString(R.string.search_fragment_title));
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onUpcomingSessionFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.UPCOMING_SESSION;
+        setTitle(getString(R.string.upcoming_session_fragment_title));
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onProfileFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.PROFILE;
+        setTitle(getString(R.string.profile_fragment_title));
+        invalidateOptionsMenu();
     }
 }

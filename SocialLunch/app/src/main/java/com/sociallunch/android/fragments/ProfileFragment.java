@@ -72,6 +72,9 @@ public class ProfileFragment extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onProfileFragmentAttached();
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement ProfileFragment.OnFragmentInteractionListener");
@@ -95,6 +98,7 @@ public class ProfileFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onProfileFragmentAttached();
     }
 
 }

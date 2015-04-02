@@ -94,6 +94,9 @@ public class UpcomingSessionFragment extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onUpcomingSessionFragmentAttached();
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement UpcomingSessionFragment.OnFragmentInteractionListener");
@@ -117,6 +120,7 @@ public class UpcomingSessionFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onUpcomingSessionFragmentAttached();
     }
 
 }

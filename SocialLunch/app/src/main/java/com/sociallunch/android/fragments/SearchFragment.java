@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        searchFragmentPagerAdapter = new SearchFragmentPagerAdapter(getActivity().getSupportFragmentManager());
+        searchFragmentPagerAdapter = new SearchFragmentPagerAdapter(getChildFragmentManager());
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);

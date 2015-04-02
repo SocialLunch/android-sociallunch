@@ -1,7 +1,6 @@
 package com.sociallunch.android.activities;
 
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -108,10 +107,5 @@ public class MainActivity extends ActionBarActivity implements
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         dlDrawer.getDrawerToggle().onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

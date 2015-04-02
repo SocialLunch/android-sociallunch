@@ -1,9 +1,11 @@
 package com.sociallunch.android.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.sociallunch.android.R;
 import com.sociallunch.android.fragments.SearchListFragment;
 import com.sociallunch.android.fragments.SearchMapFragment;
 
@@ -13,13 +15,13 @@ public class SearchFragmentPagerAdapter extends FragmentPagerAdapter {
         LIST,
         MAP
     }
-    private String tabTitles[] = new String[] { "List", "Map" };
-
+    private Context context;
     private SearchListFragment searchListFragment;
     private SearchMapFragment searchMapFragment;
 
-    public SearchFragmentPagerAdapter(FragmentManager fm) {
+    public SearchFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context;
     }
 
     @Override
@@ -46,7 +48,12 @@ public class SearchFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
-        return tabTitles[position];
+        if (position == SearchTabIndex.LIST.ordinal()) {
+            return context.getString(R.string.label_list);
+        }
+        else if (position == SearchTabIndex.MAP.ordinal()) {
+            return context.getString(R.string.label_map);
+        }
+        return context.getString(R.string.app_name);
     }
 }

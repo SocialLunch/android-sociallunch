@@ -11,7 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.sleepbot.datetimepicker.time.RadialPickerLayout;
+import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import com.sociallunch.android.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +29,13 @@ import com.sociallunch.android.R;
 public class CreateSuggestionDialogFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_HOUR = "hour";
+    private static final String ARG_MINUTE = "minute";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Integer hour;
+    private Integer minute;
+    private Button buttonMeetingTime;
 
     private OnFragmentInteractionListener mListener;
 
@@ -37,16 +43,14 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CreateSuggestionDialogFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateSuggestionDialogFragment newInstance(String param1, String param2) {
+    public static CreateSuggestionDialogFragment newInstance(String hour, String minute) {
         CreateSuggestionDialogFragment fragment = new CreateSuggestionDialogFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_HOUR, hour);
+        args.putString(ARG_MINUTE, minute);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +63,8 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            hour = getArguments().getInt(ARG_HOUR, -1);
+            minute = getArguments().getInt(ARG_MINUTE, -1);
         }
     }
 
@@ -74,6 +78,28 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         View dialogView = inflater.inflate(R.layout.dialog_fragment_create_suggestion, null);
+
+        buttonMeetingTime = (Button) dialogView.findViewById(R.id.buttonMeetingTime);
+        buttonMeetingTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                if (hour != null && hour != -1 && minute != null && minute != -1) {
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, minute);
+                }
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(RadialPickerLayout radialPickerLayout, int i, int i2) {
+                        hour = i;
+                        minute = i2;
+                        updateLabelForMeetingTime();
+                    }
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, false);
+
+                timePickerDialog.show(getChildFragmentManager(), TimePickerDialog.class.toString());
+            }
+        });
 
         builder.setTitle(getString(R.string.create_suggestion_title))
                 .setView(dialogView)
@@ -94,7 +120,21 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
             }
         });
 
+        updateLabelForMeetingTime();
+
         return alertDialog;
+    }
+
+    public void updateLabelForMeetingTime() {
+        if (hour != null && hour != -1 && minute != null && minute != -1) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
+            buttonMeetingTime.setText(String.format(getString(R.string.create_suggestion_label_meeting_time), sdf.format(calendar.getTime())));
+        } else {
+            buttonMeetingTime.setText(getString(R.string.create_suggestion_label_meeting_time_default));
+        }
     }
 
     @Override

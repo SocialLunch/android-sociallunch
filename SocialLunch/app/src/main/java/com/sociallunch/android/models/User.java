@@ -63,6 +63,23 @@ public class User implements Parcelable {
         this.foodsDisliked = foodsDisliked;
     }
 
+    // TODO: Remove Once User is connected
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+    // End Remove
 
     @Override
     public int describeContents() {

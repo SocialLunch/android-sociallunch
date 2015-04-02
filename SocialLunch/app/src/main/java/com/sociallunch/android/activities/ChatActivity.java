@@ -20,6 +20,7 @@ import com.sociallunch.android.adapters.ChatListAdapter;
 import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.Chat;
 import com.sociallunch.android.models.User;
+import com.sociallunch.android.support.CircleTransform;
 
 public class ChatActivity extends ListActivity {
 

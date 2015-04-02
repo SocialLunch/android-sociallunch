@@ -87,6 +87,9 @@ public class MainActivity extends ActionBarActivity implements
             } else if (id == R.id.action_filter) {
                 Toast.makeText(this, getString(R.string.action_filter), Toast.LENGTH_SHORT).show();//TODO-TEMP
                 return true;
+            } else if (id == R.id.action_suggest) {
+                Toast.makeText(this, getString(R.string.action_suggest), Toast.LENGTH_SHORT).show();//TODO-TEMP
+                return true;
             }
         }
 

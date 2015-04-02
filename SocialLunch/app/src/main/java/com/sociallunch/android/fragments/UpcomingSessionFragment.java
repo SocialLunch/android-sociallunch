@@ -75,6 +75,12 @@ public class UpcomingSessionFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ChatActivity.class);
                 User user = new User();
+
+                // TODO: Remove once user is populated
+                user.setFullName("Jonny Appleseed");
+                user.setProfileImage("https://media.licdn.com/media/p/4/000/15b/027/1a18058.jpg");
+                // End TODO
+
                 i.putExtra("user", user);
                 i.putExtra("identifier","1234");
                 startActivity(i);

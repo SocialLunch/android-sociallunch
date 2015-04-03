@@ -6,4 +6,7 @@
         <item name="holoSpinnerStyle">@style/Widget.AppCompat.Spinner</item>
     </style>
 
+    <style name="AppThemeWithTranslucentStatus" parent="AppTheme">
+    </style>
+
 </resources>

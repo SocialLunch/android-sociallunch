@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import com.sociallunch.android.R;
+import com.sociallunch.android.activities.VenueSelectionActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +29,8 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class CreateSuggestionDialogFragment extends DialogFragment {
+    public static final int REQUEST_CODE_VENUE_SELECTION = 1001;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_HOUR = "hour";
@@ -35,6 +39,7 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
     // TODO: Rename and change types of parameters
     private Integer hour;
     private Integer minute;
+    private Button buttonVenue;
     private Button buttonMeetingTime;
 
     private OnFragmentInteractionListener mListener;
@@ -78,6 +83,15 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         View dialogView = inflater.inflate(R.layout.dialog_fragment_create_suggestion, null);
+
+        buttonVenue = (Button) dialogView.findViewById(R.id.buttonVenue);
+        buttonVenue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), VenueSelectionActivity.class);
+                startActivityForResult(i, REQUEST_CODE_VENUE_SELECTION);
+            }
+        });
 
         buttonMeetingTime = (Button) dialogView.findViewById(R.id.buttonMeetingTime);
         buttonMeetingTime.setOnClickListener(new View.OnClickListener() {

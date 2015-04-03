@@ -16,6 +16,7 @@ import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import com.sociallunch.android.R;
 import com.sociallunch.android.activities.VenueSelectionActivity;
+import com.sociallunch.android.models.Venue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +38,7 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
     private static final String ARG_MINUTE = "minute";
 
     // TODO: Rename and change types of parameters
+    private Venue venue;
     private Integer hour;
     private Integer minute;
     private Button buttonVenue;
@@ -70,6 +72,17 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             hour = getArguments().getInt(ARG_HOUR, -1);
             minute = getArguments().getInt(ARG_MINUTE, -1);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CreateSuggestionDialogFragment.REQUEST_CODE_VENUE_SELECTION &&
+                resultCode == Activity.RESULT_OK) {
+            venue = (Venue) data.getSerializableExtra(VenueSelectionActivity.RESULT_SELECTED_VENUE);
+            updateLabelForVenue();
         }
     }
 
@@ -135,6 +148,7 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
         });
 
         updateLabelForMeetingTime();
+        updateLabelForVenue();
 
         return alertDialog;
     }
@@ -148,6 +162,14 @@ public class CreateSuggestionDialogFragment extends DialogFragment {
             buttonMeetingTime.setText(String.format(getString(R.string.create_suggestion_label_meeting_time), sdf.format(calendar.getTime())));
         } else {
             buttonMeetingTime.setText(getString(R.string.create_suggestion_label_meeting_time_default));
+        }
+    }
+
+    public void updateLabelForVenue() {
+        if (venue != null) {
+            buttonVenue.setText(venue.name);
+        } else {
+            buttonVenue.setText(getString(R.string.create_suggestion_label_venue_default));
         }
     }
 

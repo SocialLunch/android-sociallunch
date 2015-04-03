@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content

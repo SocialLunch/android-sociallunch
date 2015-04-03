@@ -6,6 +6,7 @@
     tools:context="com.sociallunch.android.activities.VenueSelectionActivity">
 
     <!-- The ActionBar -->
+
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"

@@ -2,4 +2,8 @@
 <resources>
     <string name="google_maps_api_key">AIzaSyBTaKu-5a1Cx1OsbFCd_ZXWeBN564HxB7I</string>
     <string name="fb_app_id">1423528877943479</string>
+    <string name="yelp_consumer_key">8ONSdeBMuVZL8qkb5QZU7Q</string>
+    <string name="yelp_consumer_secret">3GmUnZD4_iJcnO5LdqjYTSa0A_c</string>
+    <string name="yelp_token">jEJZNA3OImZO78ZuitAo4bkZU5feRuWj</string>
+    <string name="yelp_token_secret">CHPb0pz1ikbvPLwX8RiyvJ7gU9s</string>
 </resources>

@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="6dip"
+    android:paddingLeft="22dip"
+    android:paddingRight="22dip"
+    tools:context="com.sociallunch.android.dialogs.CreateSuggestionDialogFragment">
+
+    <Button
+        android:id="@+id/buttonVenue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_suggestion_label_venue_default"
+        style="?attr/holoSpinnerStyle"/>
+
+    <Button
+        android:id="@+id/buttonMeetingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_suggestion_label_meeting_time_default"
+        style="?attr/holoSpinnerStyle"/>
+
+</LinearLayout>

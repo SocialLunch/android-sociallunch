@@ -3,6 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="holoSpinnerStyle">@style/Widget.AppCompat.Spinner</item>
+    </style>
+
+    <style name="AppThemeWithTranslucentStatus" parent="AppTheme">
     </style>
 
 </resources>

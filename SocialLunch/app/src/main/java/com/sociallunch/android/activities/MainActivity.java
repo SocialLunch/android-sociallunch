@@ -1,8 +1,8 @@
 package com.sociallunch.android.activities;
 
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sociallunch.android.R;
+import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
 import com.sociallunch.android.fragments.ProfileFragment;
 import com.sociallunch.android.fragments.SearchFragment;
 import com.sociallunch.android.fragments.SearchListFragment;
@@ -23,8 +24,15 @@ public class MainActivity extends ActionBarActivity implements
         SearchListFragment.OnFragmentInteractionListener,
         SearchMapFragment.OnFragmentInteractionListener,
         UpcomingSessionFragment.OnFragmentInteractionListener,
-        ProfileFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener,
+        CreateSuggestionDialogFragment.OnFragmentInteractionListener {
+    public enum NavDrawerSelectedIndex {
+        SEARCH,
+        UPCOMING_SESSION,
+        PROFILE
+    }
     private FragmentNavigationDrawer dlDrawer;
+    private NavDrawerSelectedIndex navDrawerSelectedIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +72,11 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (navDrawerSelectedIndex == NavDrawerSelectedIndex.SEARCH) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+        }
+
         return true;
     }
 
@@ -87,6 +99,11 @@ public class MainActivity extends ActionBarActivity implements
             } else if (id == R.id.action_filter) {
                 Toast.makeText(this, getString(R.string.action_filter), Toast.LENGTH_SHORT).show();//TODO-TEMP
                 return true;
+            } else if (id == R.id.action_suggest) {
+                FragmentManager fm = getSupportFragmentManager();
+                CreateSuggestionDialogFragment alertDialog = CreateSuggestionDialogFragment.newInstance();
+                alertDialog.show(fm, CreateSuggestionDialogFragment.class.toString());
+                return true;
             }
         }
 
@@ -108,7 +125,23 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onSearchFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.SEARCH;
+        setTitle(getString(R.string.search_fragment_title));
+        invalidateOptionsMenu();
+    }
 
+    @Override
+    public void onUpcomingSessionFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.UPCOMING_SESSION;
+        setTitle(getString(R.string.upcoming_session_fragment_title));
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onProfileFragmentAttached() {
+        navDrawerSelectedIndex = NavDrawerSelectedIndex.PROFILE;
+        setTitle(getString(R.string.profile_fragment_title));
+        invalidateOptionsMenu();
     }
 }

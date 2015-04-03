@@ -3,26 +3,24 @@ package com.sociallunch.android.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.sociallunch.android.R;
-import com.sociallunch.android.adapters.SearchFragmentPagerAdapter;
+import com.sociallunch.android.fragments.dummy.DummyContent;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
+ * {@link VenueSelectionListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
+ * Use the {@link VenueSelectionListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
-    private SearchFragmentPagerAdapter searchFragmentPagerAdapter;
-
+public class VenueSelectionListFragment extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,19 +38,15 @@ public class SearchFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
+     * @return A new instance of fragment VenueSelectionListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static VenueSelectionListFragment newInstance() {
+        VenueSelectionListFragment fragment = new VenueSelectionListFragment();
         return fragment;
     }
 
-    public SearchFragment() {
+    public VenueSelectionListFragment() {
         // Required empty public constructor
     }
 
@@ -63,27 +57,10 @@ public class SearchFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-        searchFragmentPagerAdapter = new SearchFragmentPagerAdapter(getChildFragmentManager(), getActivity());
-
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPager.setAdapter(searchFragmentPagerAdapter);
-
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabsStrip.setShouldExpand(true);    // has to be invoked before setting view pager
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(viewPager);
-
-        return view;
+        // TODO: Change Adapter to display your content
+        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
     @Override
@@ -91,12 +68,9 @@ public class SearchFragment extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
-            if (mListener != null) {
-                mListener.onSearchFragmentAttached();
-            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement SearchFragment.OnFragmentInteractionListener");
+                    + " must implement VenueSelectionListFragment.OnFragmentInteractionListener");
         }
     }
 
@@ -117,7 +91,6 @@ public class SearchFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onSearchFragmentAttached();
     }
 
 }

@@ -49,4 +49,5 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.joanzapata.android:android-iconify:1.0.9'
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 }

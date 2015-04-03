@@ -14,4 +14,10 @@
         android:orderInCategory="200"
         android:icon="@drawable/ic_action_filter"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_suggest"
+        android:title="@string/action_suggest"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_action_add"
+        app:showAsAction="ifRoom" />
 </menu>

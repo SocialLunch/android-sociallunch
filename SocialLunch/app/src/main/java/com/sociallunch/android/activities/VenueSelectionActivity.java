@@ -18,6 +18,7 @@ import com.sociallunch.android.fragments.VenueSelectionListFragment;
 import com.sociallunch.android.fragments.VenueSelectionMapFragment;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.models.YelpSearchAPIResponse;
+import com.sociallunch.android.net.YelpAPI;
 import com.sociallunch.android.workers.VenueSelectionWorkerFragment;
 
 public class VenueSelectionActivity extends ActionBarActivity implements
@@ -63,7 +64,6 @@ public class VenueSelectionActivity extends ActionBarActivity implements
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,8 +118,14 @@ public class VenueSelectionActivity extends ActionBarActivity implements
 
     @Override
     public void onFetchYelpSearchResultsTaskPostExecute(YelpSearchAPIResponse result) {
+        mWorkerFragment.mSearchResults.clear();
+        mWorkerFragment.mSearchResults.addAll(result.venues);
         VenueSelectionListFragment venueSelectionListFragment = (VenueSelectionListFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.LIST.ordinal());
-        venueSelectionListFragment.updateItems(result.venues);
+        venueSelectionListFragment.updateItems(mWorkerFragment.mSearchResults);
+    }
+
+    @Override
+    public void onAttachedVenueSelectionListFragment(VenueSelectionListFragment fragment) {
     }
 
     @Override
@@ -128,5 +134,12 @@ public class VenueSelectionActivity extends ActionBarActivity implements
         returnIntent.putExtra(RESULT_SELECTED_VENUE, venue);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mWorkerFragment.fetchYelpSearchResultsAsync(YelpAPI.DEFAULT_TERM, YelpAPI.DEFAULT_LOCATION);
     }
 }

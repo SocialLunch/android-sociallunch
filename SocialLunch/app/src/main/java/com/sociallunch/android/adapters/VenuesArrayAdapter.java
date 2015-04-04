@@ -20,6 +20,9 @@ public class VenuesArrayAdapter extends ArrayAdapter<Venue> {
     private static class ViewHolder {
         public ImageView ivImage;
         public TextView tvName;
+        public ImageView ivRating;
+        public TextView tvAddress;
+        public TextView tvCategories;
     }
 
     public VenuesArrayAdapter(Context context, ArrayList<Venue> venues) {
@@ -40,13 +43,19 @@ public class VenuesArrayAdapter extends ArrayAdapter<Venue> {
             convertView = inflater.inflate(R.layout.item_venue, parent, false);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
+            viewHolder.ivRating = (ImageView) convertView.findViewById(R.id.ivRating);
+            viewHolder.tvAddress = (TextView) convertView.findViewById(R.id.tvAddress);
+            viewHolder.tvCategories = (TextView) convertView.findViewById(R.id.tvCategories);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // Populate data into the template view using the data object
-        viewHolder.tvName.setText(venue.name);
-        Picasso.with(getContext()).load(Uri.parse(venue.imageUrl)).placeholder(R.drawable.ic_action_search).into(viewHolder.ivImage);
+        viewHolder.tvName.setText(String.format(getContext().getString(R.string.item_venue_label_name), position + 1, venue.name));
+        Picasso.with(getContext()).load(Uri.parse(venue.imageUrl)).into(viewHolder.ivImage);
+        Picasso.with(getContext()).load(Uri.parse(venue.ratingImgUrl)).into(viewHolder.ivRating);
+        viewHolder.tvAddress.setText(venue.displayAddress);
+        viewHolder.tvCategories.setText(venue.categories);
         // Return the completed view to render on screen
         return convertView;
     }

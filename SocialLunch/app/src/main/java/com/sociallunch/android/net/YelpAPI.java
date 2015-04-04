@@ -9,20 +9,20 @@ import org.scribe.oauth.OAuthService;
 
 /**
  * Code sample for accessing the Yelp API V2.
- * 
+ *
  * This program demonstrates the capability of the Yelp API version 2.0 by using the Search API to
  * query for businesses by a search term and location, and the Business API to query additional
  * information about the top result from the search query.
- * 
+ *
  * <p>
  * See <a href="http://www.yelp.com/developers/documentation">Yelp Documentation</a> for more info.
- * 
+ *
  */
 public class YelpAPI {
 
+  public static final String DEFAULT_TERM = "Restaurants";
+  public static final String DEFAULT_LOCATION = "San Francisco, CA";
   private static final String API_HOST = "api.yelp.com";
-//  private static final String DEFAULT_TERM = "dinner";
-//  private static final String DEFAULT_LOCATION = "San Francisco, CA";
   private static final int SEARCH_LIMIT = 10;
   private static final String SEARCH_PATH = "/v2/search";
   private static final String BUSINESS_PATH = "/v2/business";
@@ -41,7 +41,7 @@ public class YelpAPI {
 
   /**
    * Setup the Yelp API OAuth credentials.
-   * 
+   *
    * @param consumerKey Consumer key
    * @param consumerSecret Consumer secret
    * @param token Token
@@ -59,7 +59,7 @@ public class YelpAPI {
    * <p>
    * See <a href="http://www.yelp.com/developers/documentation/v2/search_api">Yelp Search API V2</a>
    * for more info.
-   * 
+   *
    * @param term <tt>String</tt> of the search term to be queried
    * @param location <tt>String</tt> of the location
    * @return <tt>String</tt> JSON Response
@@ -77,7 +77,7 @@ public class YelpAPI {
    * <p>
    * See <a href="http://www.yelp.com/developers/documentation/v2/business">Yelp Business API V2</a>
    * for more info.
-   * 
+   *
    * @param businessID <tt>String</tt> business ID of the requested business
    * @return <tt>String</tt> JSON Response
    */
@@ -88,7 +88,7 @@ public class YelpAPI {
 
   /**
    * Creates and returns an {@link org.scribe.model.OAuthRequest} based on the API endpoint specified.
-   * 
+   *
    * @param path API endpoint to be queried
    * @return <tt>OAuthRequest</tt>
    */
@@ -99,7 +99,7 @@ public class YelpAPI {
 
   /**
    * Sends an {@link org.scribe.model.OAuthRequest} and returns the {@link org.scribe.model.Response} body.
-   * 
+   *
    * @param request {@link org.scribe.model.OAuthRequest} corresponding to the API request
    * @return <tt>String</tt> body of API response
    */

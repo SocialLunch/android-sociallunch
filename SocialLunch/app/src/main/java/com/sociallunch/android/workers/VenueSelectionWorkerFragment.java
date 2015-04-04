@@ -24,10 +24,6 @@ public class VenueSelectionWorkerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     protected FetchYelpSearchResultsTask fetchYelpSearchResultsTask;
     public String mSubmittedQuery;
-    public String mSize;
-    public String mColor;
-    public String mType;
-    public String mSite;
     public ArrayList<Venue> mSearchResults = new ArrayList<>();
 
     public static VenueSelectionWorkerFragment newInstance() {

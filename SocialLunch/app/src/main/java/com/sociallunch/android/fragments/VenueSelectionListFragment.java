@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.sociallunch.android.adapters.VenuesArrayAdapter;
@@ -68,6 +65,9 @@ public class VenueSelectionListFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onAttachedVenueSelectionListFragment(this);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement VenueSelectionListFragment.OnFragmentInteractionListener");
@@ -91,11 +91,14 @@ public class VenueSelectionListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onAttachedVenueSelectionListFragment(VenueSelectionListFragment fragment);
         public void selectVenue(Venue venue);
     }
 
     public void updateItems(ArrayList<Venue> venues) {
-        aVenues.clear();
-        aVenues.addAll(venues);
+        if (aVenues != null) {
+            aVenues.clear();
+            aVenues.addAll(venues);
+        }
     }
 }

@@ -6,14 +6,39 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/ivImage" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginLeft="6dip"
         android:layout_marginStart="6dip"
-        android:id="@+id/tvName" />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@string/item_venue_label_name"
+            android:id="@+id/tvName" />
+        <ImageView
+            android:layout_width="84dip"
+            android:layout_height="17dip"
+            android:id="@+id/ivRating"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:id="@+id/tvAddress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCategories" />
+
+    </LinearLayout>
 </LinearLayout>

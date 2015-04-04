@@ -29,7 +29,20 @@ public class User implements Parcelable {
         Map<String, Object> cachedUserProfile = (Map<String, Object>) providerData.get("cachedUserProfile");
         user.fullName = (String) cachedUserProfile.get("name");
         user.email = (String) cachedUserProfile.get("email");
-        user.profileImage = (String) cachedUserProfile.get("cover");
+        Map<String, Map<String, Object>> picture =
+            (Map<String, Map<String, Object>> ) cachedUserProfile.get("picture");
+        user.profileImage = (String) picture.get("data").get("url");
+        return user;
+    }
+
+    public static User fromMap(User user, Map<String, Object> map) {
+        user.setUid((String) map.get("uid"));
+        user.setFullName((String) map.get("fullName"));
+        user.setEmail((String) map.get("email"));
+        user.setFoodsLiked((String) map.get("foodsLiked"));
+        user.setFoodsDisliked((String) map.get("foodsDisliked"));
+        if (map.get("profileImage") != null)
+            user.setProfileImage((String) map.get("profileImage"));
         return user;
     }
 

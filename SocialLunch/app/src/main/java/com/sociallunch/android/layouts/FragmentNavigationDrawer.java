@@ -17,7 +17,11 @@ import android.widget.ListView;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.NavDrawerListAdapter;
+import com.sociallunch.android.application.OAuthApplication;
+import com.sociallunch.android.fragments.ProfileFragment;
 import com.sociallunch.android.models.NavDrawerItem;
+import com.sociallunch.android.models.User;
+
 
 import java.util.ArrayList;
 
@@ -90,7 +94,12 @@ public class FragmentNavigationDrawer extends DrawerLayout {
         FragmentNavItem navItem = drawerNavItems.get(position);
         Fragment fragment = null;
         try {
-            fragment = navItem.getFragmentClass().newInstance();
+            if (navItem.getFragmentClass() == ProfileFragment.class) {
+                User user = ((OAuthApplication) getContext().getApplicationContext()).getCurrentUser();
+                fragment = ProfileFragment.newInstance(user);
+            } else {
+                fragment = navItem.getFragmentClass().newInstance();
+            }
             Bundle args = navItem.getFragmentArgs();
             if (args != null) {
                 fragment.setArguments(args);

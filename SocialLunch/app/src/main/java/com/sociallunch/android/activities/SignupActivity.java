@@ -15,13 +15,18 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.sociallunch.android.R;
 import com.sociallunch.android.application.OAuthApplication;
+import com.sociallunch.android.models.User;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -44,16 +49,21 @@ public class SignupActivity extends ActionBarActivity {
         callbackManager = CallbackManager.Factory.create();
         OAuthApplication application = (OAuthApplication) getApplication();
         mFirebaseRef = application.getFirebaseRef();
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
-                if (newAccessToken != null) {
-                    authenticateWithFirebase(newAccessToken.getToken());
-                } else {
-                    setupLogin();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            authenticateWithFirebase(accessToken.getToken());
+        } else {
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
+                    if (newAccessToken != null) {
+                        authenticateWithFirebase(newAccessToken.getToken());
+                    } else {
+                        setupLogin();
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 
     public void setupLogin() {
@@ -92,7 +102,7 @@ public class SignupActivity extends ActionBarActivity {
             @Override
             public void onAuthenticated(AuthData authData) {
                 application.setAuthData(authData);
-                goToNextFragment();
+                goToNextFragment(authData);
             }
 
             @Override
@@ -111,9 +121,33 @@ public class SignupActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToNextFragment() {
-        Intent i = new Intent(SignupActivity.this, CreateProfileActivity.class);
-        startActivity(i);
+    public void goToNextFragment(final AuthData authData) {
+        final OAuthApplication application = (OAuthApplication) getApplication();
+        final Firebase userRef = mFirebaseRef.child("user");
+        Query userQuery = userRef.child(authData.getUid());
+
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Map<String, Object> value = (Map<String, Object> ) snapshot.getValue();
+
+                User user = User.fromAuthData(authData);
+                Intent i;
+                if (value == null) {
+                    application.setCurrentUser(user);
+                    i = new Intent(SignupActivity.this, CreateProfileActivity.class);
+                } else {
+                    user = User.fromMap(user, value);
+                    application.setCurrentUser(user);
+                    i = new Intent(SignupActivity.this, MainActivity.class);
+                }
+                userRef.child(authData.getUid()).setValue(user);
+                startActivity(i);
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     @Override
@@ -125,6 +159,8 @@ public class SignupActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        accessTokenTracker.stopTracking();
+        if (accessTokenTracker != null) {
+            accessTokenTracker.stopTracking();
+        }
     }
 }

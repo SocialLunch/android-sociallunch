@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sociallunch.android.activities.SuggestionActivity">
+    <item
+        android:id="@+id/action_join"
+        android:title="@string/action_join"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_chat"
+        android:title="@string/action_chat"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
+
+</menu>

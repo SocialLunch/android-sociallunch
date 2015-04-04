@@ -16,6 +16,7 @@ import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.VenueSelectionPagerAdapter;
 import com.sociallunch.android.fragments.VenueSelectionListFragment;
 import com.sociallunch.android.fragments.VenueSelectionMapFragment;
+import com.sociallunch.android.models.User;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.models.YelpSearchAPIResponse;
 import com.sociallunch.android.net.YelpAPI;

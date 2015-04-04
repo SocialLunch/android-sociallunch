@@ -1,5 +1,6 @@
 package com.sociallunch.android.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -32,8 +33,8 @@ public class MainActivity extends ActionBarActivity implements
         ProfileFragment.OnFragmentInteractionListener,
         CreateSuggestionDialogFragment.OnFragmentInteractionListener,
         SearchWorkerFragment.OnFragmentInteractionListener {
+    public static final String RESULT_SELECTED_SUGGESTION = "result.RESULT_SELECTED_SUGGESTION";
 
-    public static String NOTIFICATION_NAME_SUGGESTIONS_UPDATE = "suggestions";
     public enum NavDrawerSelectedIndex {
         SEARCH,
         UPCOMING_SESSION,
@@ -173,5 +174,18 @@ public class MainActivity extends ActionBarActivity implements
         if (mSearchFragment != null) {
             mSearchFragment.updateViews(mSearchWorkerFragment.mSearchResults);
         }
+    }
+
+    @Override
+    public void selectSuggestion(Suggestion suggestion) {
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra(RESULT_SELECTED_SUGGESTION, suggestion);
+//        setResult(RESULT_OK, returnIntent);
+//        finish();
+
+
+        Intent intent = new Intent(this, SuggestionActivity.class);
+        intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
+        startActivity(intent);
     }
 }

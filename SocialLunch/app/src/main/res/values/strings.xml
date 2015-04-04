@@ -7,6 +7,8 @@
     <string name="action_search">Search</string>
     <string name="action_filter">Filter</string>
     <string name="action_suggest">Suggest</string>
+    <string name="action_join">Join</string>
+    <string name="action_chat">Chat</string>
     <string name="title_activity_create_profile">What foods do you like?</string>
     <string name="title_activity_home_page">HomePageActivity</string>
     <string name="title_activity_chat">Chat</string>
@@ -27,5 +29,6 @@
     <string name="label_suggest">Suggest</string>
     <string name="title_activity_venue_selection">Pick a venue</string>
     <string name="item_venue_label_name" formatted="false">%d. %s</string>
+    <string name="title_activity_suggestion">Suggestion</string>
 
 </resources>

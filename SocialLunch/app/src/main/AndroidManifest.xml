@@ -79,6 +79,9 @@
         <activity
             android:name=".activities.VenueSelectionActivity"
             android:label="@string/title_activity_venue_selection" />
+        <activity
+            android:name=".activities.SuggestionActivity"
+            android:label="@string/title_activity_suggestion"></activity>
     </application>
 
 </manifest>

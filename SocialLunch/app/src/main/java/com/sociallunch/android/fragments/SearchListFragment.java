@@ -3,12 +3,15 @@ package com.sociallunch.android.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.sociallunch.android.adapters.SuggestionsArrayAdapter;
 import com.sociallunch.android.adapters.VenuesArrayAdapter;
 import com.sociallunch.android.fragments.dummy.DummyContent;
 import com.sociallunch.android.models.Suggestion;
+import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
 
@@ -52,6 +55,13 @@ public class SearchListFragment extends ListFragment {
         setListAdapter(aSuggestions);
     }
 
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if (mListener != null) {
+            Suggestion suggestion = (Suggestion) getListAdapter().getItem(position);
+            mListener.selectSuggestion(suggestion);
+        }
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -80,6 +90,7 @@ public class SearchListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void selectSuggestion(Suggestion suggestion);
     }
 
 

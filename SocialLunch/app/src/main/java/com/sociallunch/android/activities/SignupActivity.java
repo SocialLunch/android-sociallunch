@@ -49,6 +49,11 @@ public class SignupActivity extends ActionBarActivity {
         callbackManager = CallbackManager.Factory.create();
         OAuthApplication application = (OAuthApplication) getApplication();
         mFirebaseRef = application.getFirebaseRef();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken != null) {
             authenticateWithFirebase(accessToken.getToken());

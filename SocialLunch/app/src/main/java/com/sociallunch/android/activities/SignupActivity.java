@@ -1,10 +1,15 @@
 package com.sociallunch.android.activities;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -38,6 +43,7 @@ public class SignupActivity extends ActionBarActivity {
     private CallbackManager callbackManager;
     private Firebase mFirebaseRef;
     private AccessTokenTracker accessTokenTracker;
+    private ImageButton btnLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,17 @@ public class SignupActivity extends ActionBarActivity {
         callbackManager = CallbackManager.Factory.create();
         OAuthApplication application = (OAuthApplication) getApplication();
         mFirebaseRef = application.getFirebaseRef();
+
+        btnLogo = (ImageButton)this.findViewById(R.id.btnLogo);
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.gobble);
+        btnLogo.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                mp.start();
+                Animation animShake = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.shake);
+                btnLogo.startAnimation(animShake);
+            }
+        });
     }
 
     @Override

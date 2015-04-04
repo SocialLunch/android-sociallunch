@@ -14,16 +14,17 @@
         android:scaleType="centerCrop"
         android:src="@drawable/login_background"/>
 
-    <ImageView
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ivLogo"
+        android:id="@+id/btnLogo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:minHeight="200dp"
         android:minWidth="200dp"
         android:layout_marginTop="90dp"
-        android:src="@drawable/logo_large" />
+        android:src="@drawable/logo_large"
+        android:background="@android:color/transparent" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -32,9 +33,9 @@
         android:minHeight="75dp"
         android:minWidth="200dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/ivLogo"
-        android:layout_alignLeft="@+id/ivLogo"
-        android:layout_alignStart="@+id/ivLogo"
+        android:layout_below="@+id/btnLogo"
+        android:layout_alignLeft="@+id/btnLogo"
+        android:layout_alignStart="@+id/btnLogo"
         android:src="@drawable/logo_text"/>
 
     <com.facebook.login.widget.LoginButton

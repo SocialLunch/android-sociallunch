@@ -1,16 +1,16 @@
 package com.sociallunch.android.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.sociallunch.android.R;
+import com.sociallunch.android.adapters.SuggestionsArrayAdapter;
+import com.sociallunch.android.adapters.VenuesArrayAdapter;
 import com.sociallunch.android.fragments.dummy.DummyContent;
+import com.sociallunch.android.models.Suggestion;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,14 +21,8 @@ import com.sociallunch.android.fragments.dummy.DummyContent;
  * create an instance of this fragment.
  */
 public class SearchListFragment extends ListFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<Suggestion> suggestions;
+    private SuggestionsArrayAdapter aSuggestions;
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,18 +30,11 @@ public class SearchListFragment extends ListFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment SearchListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchListFragment newInstance(/*String param1, String param2*/) {
-        SearchListFragment fragment = new SearchListFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-        return fragment;
+    public static SearchListFragment newInstance() {
+        return new SearchListFragment();
     }
 
     public SearchListFragment() {
@@ -57,14 +44,12 @@ public class SearchListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        // Create the arraylist (data source)
+        suggestions = new ArrayList<>();
+        // Construct the adapter from data source
+        aSuggestions = new SuggestionsArrayAdapter(getActivity(), suggestions);
+        setListAdapter(aSuggestions);
     }
 
     @Override
@@ -97,4 +82,11 @@ public class SearchListFragment extends ListFragment {
     public interface OnFragmentInteractionListener {
     }
 
+
+    public void updateItems(ArrayList<Suggestion> suggestions) {
+        if (aSuggestions != null) {
+            aSuggestions.clear();
+            aSuggestions.addAll(suggestions);
+        }
+    }
 }

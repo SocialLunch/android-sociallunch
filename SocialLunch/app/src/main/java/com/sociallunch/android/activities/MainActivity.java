@@ -18,6 +18,11 @@ import com.sociallunch.android.fragments.SearchListFragment;
 import com.sociallunch.android.fragments.SearchMapFragment;
 import com.sociallunch.android.fragments.UpcomingSessionFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
+import com.sociallunch.android.models.Suggestion;
+import com.sociallunch.android.models.Venue;
+import com.sociallunch.android.workers.SearchWorkerFragment;
+
+import java.util.Calendar;
 
 public class MainActivity extends ActionBarActivity implements
         SearchFragment.OnFragmentInteractionListener,
@@ -25,7 +30,10 @@ public class MainActivity extends ActionBarActivity implements
         SearchMapFragment.OnFragmentInteractionListener,
         UpcomingSessionFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        CreateSuggestionDialogFragment.OnFragmentInteractionListener {
+        CreateSuggestionDialogFragment.OnFragmentInteractionListener,
+        SearchWorkerFragment.OnFragmentInteractionListener {
+
+    public static String NOTIFICATION_NAME_SUGGESTIONS_UPDATE = "suggestions";
     public enum NavDrawerSelectedIndex {
         SEARCH,
         UPCOMING_SESSION,
@@ -33,11 +41,21 @@ public class MainActivity extends ActionBarActivity implements
     }
     private FragmentNavigationDrawer dlDrawer;
     private NavDrawerSelectedIndex navDrawerSelectedIndex;
+    private SearchWorkerFragment mSearchWorkerFragment;
+    private SearchFragment mSearchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getSupportFragmentManager();
+        mSearchWorkerFragment = (SearchWorkerFragment) fm.findFragmentByTag(SearchWorkerFragment.class.toString());
+
+        if (mSearchWorkerFragment == null) {
+            mSearchWorkerFragment = SearchWorkerFragment.newInstance();
+            fm.beginTransaction().add(mSearchWorkerFragment, SearchWorkerFragment.class.toString()).commit();
+        }
 
         // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -124,8 +142,9 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onSearchFragmentAttached() {
+    public void onSearchFragmentAttached(SearchFragment searchFragment) {
         navDrawerSelectedIndex = NavDrawerSelectedIndex.SEARCH;
+        mSearchFragment = searchFragment;
         setTitle(getString(R.string.search_fragment_title));
         invalidateOptionsMenu();
     }
@@ -142,5 +161,17 @@ public class MainActivity extends ActionBarActivity implements
         navDrawerSelectedIndex = NavDrawerSelectedIndex.PROFILE;
         setTitle(getString(R.string.profile_fragment_title));
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public void requestToCreateSuggestion(Venue venue, Calendar meetingTime) {
+        Suggestion suggestion = new Suggestion(venue, meetingTime);
+        //TODO-TEMP: store new suggestion in FireBase
+
+        mSearchWorkerFragment.mSearchResults.add(suggestion);
+
+        if (mSearchFragment != null) {
+            mSearchFragment.updateViews(mSearchWorkerFragment.mSearchResults);
+        }
     }
 }

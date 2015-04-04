@@ -34,8 +34,7 @@ public class VenueSelectionListFragment extends ListFragment {
      */
     // TODO: Rename and change types and number of parameters
     public static VenueSelectionListFragment newInstance() {
-        VenueSelectionListFragment fragment = new VenueSelectionListFragment();
-        return fragment;
+        return new VenueSelectionListFragment();
     }
 
     public VenueSelectionListFragment() {

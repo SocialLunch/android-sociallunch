@@ -21,6 +21,8 @@
     <string name="create_suggestion_label_venue_default">Pick a venue</string>
     <string name="create_suggestion_label_meeting_time_default">Pick a meeting time</string>
     <string name="create_suggestion_label_meeting_time">Meet at %s</string>
+    <string name="create_suggestion_toast_venue_required">Please pick a venue.</string>
+    <string name="create_suggestion_toast_meeting_time_required">Please pick a meeting time.</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_suggest">Suggest</string>
     <string name="title_activity_venue_selection">Pick a venue</string>

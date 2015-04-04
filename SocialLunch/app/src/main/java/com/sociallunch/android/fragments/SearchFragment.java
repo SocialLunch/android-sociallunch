@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.SearchFragmentPagerAdapter;
+import com.sociallunch.android.models.Suggestion;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +95,7 @@ public class SearchFragment extends Fragment {
         try {
             mListener = (OnFragmentInteractionListener) activity;
             if (mListener != null) {
-                mListener.onSearchFragmentAttached();
+                mListener.onSearchFragmentAttached(this);
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -117,7 +120,11 @@ public class SearchFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onSearchFragmentAttached();
+        public void onSearchFragmentAttached(SearchFragment searchFragment);
     }
 
+    public void updateViews(ArrayList<Suggestion> suggestions) {
+        SearchListFragment searchListFragment = (SearchListFragment) searchFragmentPagerAdapter.getItem(SearchFragmentPagerAdapter.SearchTabIndex.LIST.ordinal());
+        searchListFragment.updateItems(suggestions);
+    }
 }

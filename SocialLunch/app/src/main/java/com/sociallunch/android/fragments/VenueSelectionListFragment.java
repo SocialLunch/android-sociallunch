@@ -90,7 +90,7 @@ public class VenueSelectionListFragment extends ListFragment {
 
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mListener != null) {
-            Venue venue = (Venue) getListAdapter().getItem(position);
+            Venue venue = (Venue) getListAdapter().getItem(position - getListView().getHeaderViewsCount());
             mListener.selectVenue(venue);
         }
     }

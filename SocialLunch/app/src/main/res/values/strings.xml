@@ -31,5 +31,6 @@
     <string name="title_activity_suggestion">Suggestion</string>
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>
+    <string name="label_empty">No result is found.</string>
 
 </resources>

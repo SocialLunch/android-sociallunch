@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -55,8 +56,12 @@ public class VenueSelectionListFragment extends ListFragment {
         // Construct the adapter from data source
         aVenues = new VenuesArrayAdapter(getActivity(), venues);
         setListAdapter(aVenues);
+    }
 
-        LayoutInflater inflater = getLayoutInflater(savedInstanceState);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
         listHeader = inflater.inflate(R.layout.list_header_venue, null);
         listFooter = inflater.inflate(R.layout.list_footer_venue, null);
 
@@ -79,6 +84,15 @@ public class VenueSelectionListFragment extends ListFragment {
                 }
             }
         });
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setEmptyText(getString(R.string.label_empty));
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {

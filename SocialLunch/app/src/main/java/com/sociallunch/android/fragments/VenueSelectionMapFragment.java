@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,14 +105,15 @@ public class VenueSelectionMapFragment extends MapFragment {
                 final HashMap<Marker, Venue> venuesByMarker = new HashMap<>();
                 for (int i = 0 ; i < length ; i++) {
                     Venue venue = venues.get(i);
+                    LatLng coordinate = new LatLng(venue.latitude, venue.longitude);
                     MarkerOptions markerOpts = new MarkerOptions()
                             .title(venue.name)
-                            .position(venue.coordinate)
+                            .position(coordinate)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
                     markerOpts.snippet(venue.displayAddress);
                     Marker marker = map.addMarker(markerOpts);
                     venuesByMarker.put(marker, venue);
-                    builder.include(venue.coordinate);
+                    builder.include(coordinate);
                 }
                 map.setInfoWindowAdapter(new VenueMarkerInfoWindowAdapter(getActivity(), venuesByMarker));
                 map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {

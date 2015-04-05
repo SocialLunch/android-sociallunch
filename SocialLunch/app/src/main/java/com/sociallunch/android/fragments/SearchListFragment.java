@@ -67,6 +67,9 @@ public class SearchListFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onSearchListFragmentAttached(this);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement SearchListFragment.OnFragmentInteractionListener");
@@ -90,6 +93,7 @@ public class SearchListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onSearchListFragmentAttached(SearchListFragment searchListFragment);
         public void selectSuggestion(Suggestion suggestion);
     }
 

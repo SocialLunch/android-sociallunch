@@ -23,6 +23,7 @@ import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends ActionBarActivity implements
@@ -44,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements
     private NavDrawerSelectedIndex navDrawerSelectedIndex;
     private SearchWorkerFragment mSearchWorkerFragment;
     private SearchFragment mSearchFragment;
+    private SearchListFragment mSearchListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +150,8 @@ public class MainActivity extends ActionBarActivity implements
         mSearchFragment = searchFragment;
         setTitle(getString(R.string.search_fragment_title));
         invalidateOptionsMenu();
+
+        mSearchWorkerFragment.fetchSuggestions();
     }
 
     @Override
@@ -166,26 +170,25 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void requestToCreateSuggestion(Venue venue, Calendar meetingTime) {
-        Suggestion suggestion = new Suggestion(venue, meetingTime);
-        //TODO-TEMP: store new suggestion in FireBase
+        mSearchWorkerFragment.addSuggestion(venue, meetingTime);
+    }
 
-        mSearchWorkerFragment.mSearchResults.add(suggestion);
-
-        if (mSearchFragment != null) {
-            mSearchFragment.updateViews(mSearchWorkerFragment.mSearchResults);
-        }
+    @Override
+    public void onSearchListFragmentAttached(SearchListFragment searchListFragment) {
+        mSearchListFragment = searchListFragment;
     }
 
     @Override
     public void selectSuggestion(Suggestion suggestion) {
-//        Intent returnIntent = new Intent();
-//        returnIntent.putExtra(RESULT_SELECTED_SUGGESTION, suggestion);
-//        setResult(RESULT_OK, returnIntent);
-//        finish();
-
-
         Intent intent = new Intent(this, SuggestionActivity.class);
         intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFetchedSuggestions(ArrayList<Suggestion> suggestions) {
+        if (mSearchListFragment != null) {
+            mSearchListFragment.updateItems(suggestions);
+        }
     }
 }

@@ -89,8 +89,7 @@ public class SuggestionActivity extends ActionBarActivity {
         User user = application.getCurrentUser();
 
         i.putExtra("user", user);
-//        i.putExtra("identifier", suggestion.id);
-        i.putExtra("identifier", "1234");
+        i.putExtra("identifier", suggestion.id);
         startActivity(i);
     }
 }

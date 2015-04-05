@@ -25,7 +25,7 @@ public class VenueSelectionActivity extends ActionBarActivity implements
         VenueSelectionListFragment.OnFragmentInteractionListener,
         VenueSelectionMapFragment.OnFragmentInteractionListener,
         VenueSelectionWorkerFragment.OnFragmentInteractionListener {
-    public static final String RESULT_SELECTED_VENUE = "result.RESULT_SELECTED_VENUE";
+    public static final String RESULT_SELECTED_VENUE = "result.SELECTED_VENUE";
     private VenueSelectionPagerAdapter venueSelectionPagerAdapter;
     private SearchView searchView;
     private VenueSelectionListFragment venueSelectionListFragment;

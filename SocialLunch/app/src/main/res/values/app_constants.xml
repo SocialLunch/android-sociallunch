@@ -7,4 +7,5 @@
     <string name="yelp_token">jEJZNA3OImZO78ZuitAo4bkZU5feRuWj</string>
     <string name="yelp_token_secret">CHPb0pz1ikbvPLwX8RiyvJ7gU9s</string>
     <integer name="lm_map_bounds_padding">140</integer>
+    <integer name="lm_map_default_zoom_level">15</integer>
 </resources>

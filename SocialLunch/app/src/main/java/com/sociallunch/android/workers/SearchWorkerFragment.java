@@ -27,6 +27,8 @@ import java.util.Calendar;
 public class SearchWorkerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     public ArrayList<Suggestion> mSuggestions = new ArrayList<>();
+    public ArrayList<Suggestion> mFilteredSuggestions = new ArrayList<>();
+    public String mQuery;
 
     public static SearchWorkerFragment newInstance() {
         return new SearchWorkerFragment();
@@ -68,7 +70,7 @@ public class SearchWorkerFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        public void onFetchedSuggestions(ArrayList<Suggestion> suggestions);
+        public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions);
     }
 
     public void addSuggestion(Venue venue, Calendar meetingTime) {
@@ -98,9 +100,7 @@ public class SearchWorkerFragment extends Fragment {
                     suggestions.add(suggestion);
                 }
                 mSuggestions = suggestions;
-                if (mListener != null) {
-                    mListener.onFetchedSuggestions(suggestions);
-                }
+                filterSuggestions(mQuery);
             }
 
             @Override
@@ -108,5 +108,27 @@ public class SearchWorkerFragment extends Fragment {
                 Log.d("com.sociallunch.android", "The read failed: " + firebaseError.getMessage());
             }
         });
+    }
+
+    public void filterSuggestions(String query) {
+        mQuery = query;
+
+        if (query == null || query.isEmpty()) {
+            mFilteredSuggestions = mSuggestions;
+        } else {
+            ArrayList<Suggestion> filteredSuggestions = new ArrayList<>();
+            String queryInLowerCase = query.toLowerCase();
+            for (Suggestion suggestion : mSuggestions) {
+                if (suggestion.venue.name.toLowerCase().contains(queryInLowerCase) ||
+                        (suggestion.venue.categories != null && !suggestion.venue.categories.isEmpty() && suggestion.venue.categories.toLowerCase().contains(queryInLowerCase))) {
+                    filteredSuggestions.add(suggestion);
+                }
+            }
+            mFilteredSuggestions = filteredSuggestions;
+        }
+
+        if (mListener != null) {
+            mListener.onUpdatedSuggestions(mFilteredSuggestions);
+        }
     }
 }

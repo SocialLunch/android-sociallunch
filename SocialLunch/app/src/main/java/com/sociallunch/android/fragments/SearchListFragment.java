@@ -94,6 +94,7 @@ public class SearchListFragment extends ListFragment {
      */
     public interface OnFragmentInteractionListener {
         public void onSearchListFragmentAttached(SearchListFragment searchListFragment);
+
         public void selectSuggestion(Suggestion suggestion);
     }
 
@@ -101,6 +102,7 @@ public class SearchListFragment extends ListFragment {
         if (aSuggestions != null) {
             aSuggestions.clear();
             aSuggestions.addAll(suggestions);
+            getListView().smoothScrollToPosition(0);
         }
     }
 }

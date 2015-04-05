@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +46,8 @@ public class MainActivity extends ActionBarActivity implements
     private FragmentNavigationDrawer dlDrawer;
     private NavDrawerSelectedIndex navDrawerSelectedIndex;
     private SearchWorkerFragment mSearchWorkerFragment;
-    private SearchFragment mSearchFragment;
     private SearchListFragment mSearchListFragment;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,27 @@ public class MainActivity extends ActionBarActivity implements
 
         if (navDrawerSelectedIndex == NavDrawerSelectedIndex.SEARCH) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (mSearchWorkerFragment != null) {
+                        mSearchWorkerFragment.filterSuggestions(query);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (newText.isEmpty()) {
+                        if (mSearchWorkerFragment != null) {
+                            mSearchWorkerFragment.filterSuggestions(null);
+                        }
+                    }
+                    return false;
+                }
+            });
         }
 
         return true;
@@ -147,7 +170,6 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onSearchFragmentAttached(SearchFragment searchFragment) {
         navDrawerSelectedIndex = NavDrawerSelectedIndex.SEARCH;
-        mSearchFragment = searchFragment;
         setTitle(getString(R.string.search_fragment_title));
         invalidateOptionsMenu();
 
@@ -186,7 +208,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onFetchedSuggestions(ArrayList<Suggestion> suggestions) {
+    public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions) {
         if (mSearchListFragment != null) {
             mSearchListFragment.updateItems(suggestions);
         }

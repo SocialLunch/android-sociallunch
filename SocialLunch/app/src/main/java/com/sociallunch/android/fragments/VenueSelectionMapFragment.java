@@ -110,7 +110,6 @@ public class VenueSelectionMapFragment extends MapFragment {
                             .title(venue.name)
                             .position(coordinate)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
-                    markerOpts.snippet(venue.displayAddress);
                     Marker marker = map.addMarker(markerOpts);
                     venuesByMarker.put(marker, venue);
                     builder.include(coordinate);

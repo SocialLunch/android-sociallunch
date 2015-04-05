@@ -165,6 +165,7 @@ public class SignupActivity extends ActionBarActivity {
                 }
                 userRef.child(authData.getUid()).setValue(user);
                 startActivity(i);
+                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {

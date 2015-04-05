@@ -64,6 +64,9 @@ public class VenueSelectionMapFragment extends MapFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onVenueSelectionMapFragmentAttached(this);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement VenueSelectionMapFragment.OnFragmentInteractionListener");
@@ -87,6 +90,7 @@ public class VenueSelectionMapFragment extends MapFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onVenueSelectionMapFragmentAttached(VenueSelectionMapFragment venueSelectionMapFragment);
         public void selectVenue(Venue venue);
     }
 

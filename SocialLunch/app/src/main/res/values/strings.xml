@@ -32,5 +32,6 @@
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>
     <string name="label_empty">No result is found.</string>
+    <string name="label_loading">Loading&#8230;</string>
 
 </resources>

@@ -88,13 +88,6 @@ public class VenueSelectionListFragment extends ListFragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setEmptyText(getString(R.string.label_empty));
-    }
-
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mListener != null) {
             Venue venue = (Venue) getListAdapter().getItem(position);
@@ -102,13 +95,14 @@ public class VenueSelectionListFragment extends ListFragment {
         }
     }
 
-
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onVenueSelectionListFragmentAttached(this);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement VenueSelectionListFragment.OnFragmentInteractionListener");
@@ -132,12 +126,14 @@ public class VenueSelectionListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onVenueSelectionListFragmentAttached(VenueSelectionListFragment venueSelectionListFragment);
         public void selectVenue(Venue venue);
         public void requestToFetchNextResults();
         public void requestToFetchPreviousResults();
     }
 
     public void updateItems(ArrayList<Venue> venues, boolean hasPrevious, boolean hasNext) {
+        setEmptyText(getString(R.string.label_empty));
         if (aVenues != null) {
             aVenues.clear();
             aVenues.addAll(venues);
@@ -162,5 +158,13 @@ public class VenueSelectionListFragment extends ListFragment {
             }
         }
         lv.smoothScrollToPosition(0);
+    }
+
+    public void onFetchYelpSearchResultsTaskPreExecute() {
+        setEmptyText(getString(R.string.label_loading));
+    }
+
+    public void onFetchYelpSearchResultsTaskCancelled() {
+        setEmptyText(getString(R.string.label_empty));
     }
 }

@@ -28,6 +28,8 @@ public class VenueSelectionActivity extends ActionBarActivity implements
     public static final String RESULT_SELECTED_VENUE = "result.RESULT_SELECTED_VENUE";
     private VenueSelectionPagerAdapter venueSelectionPagerAdapter;
     private SearchView searchView;
+    private VenueSelectionListFragment venueSelectionListFragment;
+    private VenueSelectionMapFragment venueSelectionMapFragment;
     private VenueSelectionWorkerFragment mWorkerFragment;
 
     @Override
@@ -108,12 +110,16 @@ public class VenueSelectionActivity extends ActionBarActivity implements
 
     @Override
     public void onFetchYelpSearchResultsTaskPreExecute() {
-
+        if (venueSelectionListFragment != null) {
+            venueSelectionListFragment.onFetchYelpSearchResultsTaskPreExecute();
+        }
     }
 
     @Override
     public void onFetchYelpSearchResultsTaskCancelled() {
-
+        if (venueSelectionListFragment != null) {
+            venueSelectionListFragment.onFetchYelpSearchResultsTaskCancelled();
+        }
     }
 
     @Override
@@ -123,10 +129,18 @@ public class VenueSelectionActivity extends ActionBarActivity implements
         mWorkerFragment.total = result.total;
         mWorkerFragment.offset = result.offset;
         mWorkerFragment.limit = result.limit;
-        VenueSelectionListFragment venueSelectionListFragment = (VenueSelectionListFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.LIST.ordinal());
         venueSelectionListFragment.updateItems(mWorkerFragment.mSearchResults, mWorkerFragment.offset > 0, mWorkerFragment.offset + mWorkerFragment.limit < result.total);
-        VenueSelectionMapFragment venueSelectionMapFragment = (VenueSelectionMapFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.MAP.ordinal());
         venueSelectionMapFragment.updateItems(mWorkerFragment.mSearchResults);
+    }
+
+    @Override
+    public void onVenueSelectionListFragmentAttached(VenueSelectionListFragment venueSelectionListFragment) {
+        this.venueSelectionListFragment = venueSelectionListFragment;
+    }
+
+    @Override
+    public void onVenueSelectionMapFragmentAttached(VenueSelectionMapFragment venueSelectionMapFragment) {
+        this.venueSelectionMapFragment = venueSelectionMapFragment;
     }
 
     @Override

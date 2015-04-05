@@ -64,9 +64,6 @@ public class VenueSelectionListFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
-            if (mListener != null) {
-                mListener.onAttachedVenueSelectionListFragment(this);
-            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement VenueSelectionListFragment.OnFragmentInteractionListener");
@@ -90,7 +87,6 @@ public class VenueSelectionListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onAttachedVenueSelectionListFragment(VenueSelectionListFragment fragment);
         public void selectVenue(Venue venue);
     }
 

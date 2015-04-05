@@ -127,10 +127,6 @@ public class VenueSelectionActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onAttachedVenueSelectionListFragment(VenueSelectionListFragment fragment) {
-    }
-
-    @Override
     public void selectVenue(Venue venue) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra(RESULT_SELECTED_VENUE, venue);

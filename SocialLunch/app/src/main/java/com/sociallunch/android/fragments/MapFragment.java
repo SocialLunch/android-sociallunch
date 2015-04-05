@@ -43,7 +43,6 @@ public class MapFragment extends Fragment {
             Log.d("com.sociallunch.android", "Map Fragment was loaded properly!");
             map.setMyLocationEnabled(true);
 
-
         } else {
             Log.e("com.sociallunch.android", "Error - Map was null!!");
         }

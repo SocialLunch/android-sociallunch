@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sociallunch.android.R;
+import com.sociallunch.android.adapters.VenueMarkerInfoWindowAdapter;
 import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,14 +87,17 @@ public class VenueSelectionMapFragment extends MapFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void selectVenue(Venue venue);
     }
 
     public void updateItems(ArrayList<Venue> venues) {
         if (map != null) {
             map.clear();
             if (!venues.isEmpty()) {
+
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 int length = venues.size();
+                final HashMap<Marker, Venue> venuesByMarker = new HashMap<>();
                 for (int i = 0 ; i < length ; i++) {
                     Venue venue = venues.get(i);
                     MarkerOptions markerOpts = new MarkerOptions()
@@ -98,9 +105,26 @@ public class VenueSelectionMapFragment extends MapFragment {
                             .position(venue.coordinate)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
                     markerOpts.snippet(venue.displayAddress);
-                    map.addMarker(markerOpts);
+                    Marker marker = map.addMarker(markerOpts);
+                    venuesByMarker.put(marker, venue);
                     builder.include(venue.coordinate);
                 }
+                map.setInfoWindowAdapter(new VenueMarkerInfoWindowAdapter(getActivity(), venuesByMarker));
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+
+                        if (marker != null) {
+                            Venue venue = venuesByMarker.get(marker);
+
+                            if (venue != null) {
+                                if (mListener != null) {
+                                    mListener.selectVenue(venue);
+                                }
+                            }
+                        }
+                    }
+                });
                 LatLngBounds bounds = builder.build();
                 int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);

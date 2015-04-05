@@ -29,5 +29,7 @@
     <string name="label_suggest">Suggest</string>
     <string name="title_activity_venue_selection">Pick a venue</string>
     <string name="title_activity_suggestion">Suggestion</string>
+    <string name="label_previous">Previous</string>
+    <string name="label_next">Next</string>
 
 </resources>

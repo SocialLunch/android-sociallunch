@@ -25,6 +25,9 @@ public class VenueSelectionWorkerFragment extends Fragment {
     protected FetchYelpSearchResultsTask fetchYelpSearchResultsTask;
     public String mSubmittedQuery;
     public ArrayList<Venue> mSearchResults = new ArrayList<>();
+    public int total = 0;
+    public int offset = 0;
+    public int limit = YelpAPI.DEFAULT_LIMIT;
 
     public static VenueSelectionWorkerFragment newInstance() {
         return new VenueSelectionWorkerFragment();
@@ -60,14 +63,16 @@ public class VenueSelectionWorkerFragment extends Fragment {
         }
     }
 
-    public void fetchYelpSearchResultsAsync(String term, String location) {
+    public void fetchYelpSearchResultsAsync(String term, String location, int offset, int limit) {
         if (fetchYelpSearchResultsTask != null)
             return;
 
         fetchYelpSearchResultsTask = new FetchYelpSearchResultsTask();
         Object[] params = {
                 term,
-                location
+                location,
+                offset,
+                limit
         };
         fetchYelpSearchResultsTask.execute(params);
     }
@@ -106,11 +111,13 @@ public class VenueSelectionWorkerFragment extends Fragment {
 
         @Override
         protected YelpSearchAPIResponse doInBackground(Object... params) {
-            if (params != null && params.length == 2) {
+            if (params != null && params.length == 4) {
                 String term = (String) params[0];
                 String location = (String) params[1];
+                int offset = (int) params[2];
+                int limit = (int) params[3];
                 YelpAPI yelpAPI = new YelpAPI(getString(R.string.yelp_consumer_key), getString(R.string.yelp_consumer_secret), getString(R.string.yelp_token), getString(R.string.yelp_token_secret));
-                return new YelpSearchAPIResponse(yelpAPI.searchForBusinessesByLocation(term, location));
+                return new YelpSearchAPIResponse(yelpAPI.searchForBusinessesByLocation(term, location, offset, limit), offset, limit);
             }
             return null;
         }

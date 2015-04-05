@@ -77,7 +77,7 @@ public class VenueSelectionActivity extends ActionBarActivity implements
                 if (mWorkerFragment != null) {
                     mWorkerFragment.mSubmittedQuery = query;
                     setTitle(query);
-                    mWorkerFragment.fetchYelpSearchResultsAsync(query, "San Francisco, CA");
+                    mWorkerFragment.fetchYelpSearchResultsAsync(query, YelpAPI.DEFAULT_LOCATION, 0, mWorkerFragment.limit);
                 }
                 return true;
             }
@@ -120,8 +120,11 @@ public class VenueSelectionActivity extends ActionBarActivity implements
     public void onFetchYelpSearchResultsTaskPostExecute(YelpSearchAPIResponse result) {
         mWorkerFragment.mSearchResults.clear();
         mWorkerFragment.mSearchResults.addAll(result.venues);
+        mWorkerFragment.total = result.total;
+        mWorkerFragment.offset = result.offset;
+        mWorkerFragment.limit = result.limit;
         VenueSelectionListFragment venueSelectionListFragment = (VenueSelectionListFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.LIST.ordinal());
-        venueSelectionListFragment.updateItems(mWorkerFragment.mSearchResults);
+        venueSelectionListFragment.updateItems(mWorkerFragment.mSearchResults, mWorkerFragment.offset > 0, mWorkerFragment.offset + mWorkerFragment.limit < result.total);
         VenueSelectionMapFragment venueSelectionMapFragment = (VenueSelectionMapFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.MAP.ordinal());
         venueSelectionMapFragment.updateItems(mWorkerFragment.mSearchResults);
     }
@@ -135,9 +138,19 @@ public class VenueSelectionActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void requestToFetchPreviousResults() {
+        mWorkerFragment.fetchYelpSearchResultsAsync(YelpAPI.DEFAULT_TERM, YelpAPI.DEFAULT_LOCATION, mWorkerFragment.offset - mWorkerFragment.limit, mWorkerFragment.limit);
+    }
+
+    @Override
+    public void requestToFetchNextResults() {
+        mWorkerFragment.fetchYelpSearchResultsAsync(YelpAPI.DEFAULT_TERM, YelpAPI.DEFAULT_LOCATION, mWorkerFragment.offset + mWorkerFragment.limit, mWorkerFragment.limit);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        mWorkerFragment.fetchYelpSearchResultsAsync(YelpAPI.DEFAULT_TERM, YelpAPI.DEFAULT_LOCATION);
+        mWorkerFragment.fetchYelpSearchResultsAsync(YelpAPI.DEFAULT_TERM, YelpAPI.DEFAULT_LOCATION, 0, mWorkerFragment.limit);
     }
 }

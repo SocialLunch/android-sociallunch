@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.VenuesArrayAdapter;
 import com.sociallunch.android.models.Venue;
 
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 public class VenueSelectionListFragment extends ListFragment {
     private ArrayList<Venue> venues;
     private VenuesArrayAdapter aVenues;
+    private View listHeader;
+    private View listFooter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -50,6 +55,30 @@ public class VenueSelectionListFragment extends ListFragment {
         // Construct the adapter from data source
         aVenues = new VenuesArrayAdapter(getActivity(), venues);
         setListAdapter(aVenues);
+
+        LayoutInflater inflater = getLayoutInflater(savedInstanceState);
+        listHeader = inflater.inflate(R.layout.list_header_venue, null);
+        listFooter = inflater.inflate(R.layout.list_footer_venue, null);
+
+        Button buttonPrevious = (Button) listHeader.findViewById(R.id.buttonPrevious);
+        buttonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.requestToFetchPreviousResults();
+                }
+            }
+        });
+
+        Button buttonNext = (Button) listFooter.findViewById(R.id.buttonNext);
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.requestToFetchNextResults();
+                }
+            }
+        });
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -58,6 +87,8 @@ public class VenueSelectionListFragment extends ListFragment {
             mListener.selectVenue(venue);
         }
     }
+
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -88,12 +119,34 @@ public class VenueSelectionListFragment extends ListFragment {
      */
     public interface OnFragmentInteractionListener {
         public void selectVenue(Venue venue);
+        public void requestToFetchNextResults();
+        public void requestToFetchPreviousResults();
     }
 
-    public void updateItems(ArrayList<Venue> venues) {
+    public void updateItems(ArrayList<Venue> venues, boolean hasPrevious, boolean hasNext) {
         if (aVenues != null) {
             aVenues.clear();
             aVenues.addAll(venues);
         }
+        ListView lv = getListView();
+        if (hasPrevious) {
+            if (lv.getHeaderViewsCount() == 0) {
+                lv.addHeaderView(listHeader, null, false);
+            }
+        } else {
+            if (lv.getHeaderViewsCount() > 0) {
+                lv.removeHeaderView(listHeader);
+            }
+        }
+        if (hasNext) {
+            if (lv.getFooterViewsCount() == 0) {
+                lv.addFooterView(listFooter, null, false);
+            }
+        } else {
+            if (lv.getFooterViewsCount() > 0) {
+                lv.removeHeaderView(listFooter);
+            }
+        }
+        lv.smoothScrollToPosition(0);
     }
 }

@@ -208,6 +208,11 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void onRequestToRefresh() {
+        mSearchWorkerFragment.fetchSuggestions();
+    }
+
+    @Override
     public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions) {
         if (mSearchListFragment != null) {
             mSearchListFragment.updateItems(suggestions);

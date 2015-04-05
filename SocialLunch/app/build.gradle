@@ -50,4 +50,6 @@ dependencies {
     compile 'com.joanzapata.android:android-iconify:1.0.9'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+    // Pull to refresh
+    compile 'com.android.support:support-v4:22.0.0'
 }

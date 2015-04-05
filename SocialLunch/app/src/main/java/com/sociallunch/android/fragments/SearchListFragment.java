@@ -2,16 +2,17 @@ package com.sociallunch.android.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.SuggestionsArrayAdapter;
-import com.sociallunch.android.adapters.VenuesArrayAdapter;
-import com.sociallunch.android.fragments.dummy.DummyContent;
 import com.sociallunch.android.models.Suggestion;
-import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
 
@@ -23,9 +24,11 @@ import java.util.ArrayList;
  * Use the {@link SearchListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchListFragment extends ListFragment {
+public class SearchListFragment extends Fragment {
     private ArrayList<Suggestion> suggestions;
     private SuggestionsArrayAdapter aSuggestions;
+    private ListView lvSuggestions;
+    private SwipeRefreshLayout swipeContainer;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,19 +50,46 @@ public class SearchListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Create the arraylist (data source)
-        suggestions = new ArrayList<>();
-        // Construct the adapter from data source
-        aSuggestions = new SuggestionsArrayAdapter(getActivity(), suggestions);
-        setListAdapter(aSuggestions);
     }
 
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        if (mListener != null) {
-            Suggestion suggestion = (Suggestion) getListAdapter().getItem(position);
-            mListener.selectSuggestion(suggestion);
-        }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_search_list, container, false);
+        // Find the listview
+        lvSuggestions = (ListView) view.findViewById(R.id.lvSuggestions);
+        // Create the arraylist (data source)
+        suggestions = new ArrayList<>();
+        aSuggestions = new SuggestionsArrayAdapter(getActivity(), suggestions);
+        lvSuggestions.setAdapter(aSuggestions);
+
+        lvSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mListener != null) {
+                    Suggestion suggestion = (Suggestion) aSuggestions.getItem(position);
+                    mListener.selectSuggestion(suggestion);
+                }
+            }
+        });
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mListener != null) {
+                    mListener.onRequestToRefresh();
+                }
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        return view;
     }
 
     @Override
@@ -94,15 +124,18 @@ public class SearchListFragment extends ListFragment {
      */
     public interface OnFragmentInteractionListener {
         public void onSearchListFragmentAttached(SearchListFragment searchListFragment);
-
         public void selectSuggestion(Suggestion suggestion);
+        public void onRequestToRefresh();
     }
 
     public void updateItems(ArrayList<Suggestion> suggestions) {
         if (aSuggestions != null) {
             aSuggestions.clear();
             aSuggestions.addAll(suggestions);
-            getListView().smoothScrollToPosition(0);
+            lvSuggestions.smoothScrollToPosition(0);
+        }
+        if (swipeContainer.isRefreshing()) {
+            swipeContainer.setRefreshing(false);
         }
     }
 }

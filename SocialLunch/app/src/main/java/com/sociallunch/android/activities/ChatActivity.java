@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.ChatListAdapter;
@@ -21,6 +22,8 @@ import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.Chat;
 import com.sociallunch.android.models.User;
 import com.sociallunch.android.support.CircleTransform;
+
+import java.util.Map;
 
 public class ChatActivity extends ListActivity {
 
@@ -107,6 +110,7 @@ public class ChatActivity extends ListActivity {
         EditText inputText = (EditText) findViewById(R.id.messageInput);
         String input = inputText.getText().toString();
         if (!input.equals("")) {
+            Map timestamp = ServerValue.TIMESTAMP;
             Chat chat = new Chat(input, user.getFullName(), user.getProfileImage());
             mFirebaseRef.push().setValue(chat);
             inputText.setText("");

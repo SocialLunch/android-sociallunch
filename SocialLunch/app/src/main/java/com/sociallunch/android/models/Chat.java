@@ -1,10 +1,16 @@
 package com.sociallunch.android.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.firebase.client.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Chat {
 
     private String message;
     private String author;
     private String profileImageURL;
+    private Long timestamp;
 
     private Chat() {
     }
@@ -24,4 +30,17 @@ public class Chat {
     }
 
     public String getProfileImageURL() { return profileImageURL; }
+
+    public java.util.Map<String, String> getTimestamp() {
+        return ServerValue.TIMESTAMP;
+    }
+
+    @JsonIgnore
+    public Long getTimestampLong() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

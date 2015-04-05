@@ -155,7 +155,8 @@ public class SignupActivity extends ActionBarActivity {
 
                 User user = User.fromAuthData(authData);
                 Intent i;
-                if (value == null) {
+                if (value == null ||
+                    (value.get("foodsDisliked") == null && value.get("foodsLiked") == null)) {
                     application.setCurrentUser(user);
                     i = new Intent(SignupActivity.this, CreateProfileActivity.class);
                 } else {

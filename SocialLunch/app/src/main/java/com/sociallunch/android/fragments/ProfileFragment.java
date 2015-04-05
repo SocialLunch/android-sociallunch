@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.facebook.login.widget.ProfilePictureView;
 import com.sociallunch.android.R;
 import com.sociallunch.android.activities.SignupActivity;
 import com.sociallunch.android.models.User;
-import com.squareup.picasso.Picasso;
 
 
 import butterknife.ButterKnife;
@@ -30,7 +29,7 @@ import butterknife.InjectView;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    @InjectView(R.id.ivProfileImage) ImageView ivProfileImage;
+    @InjectView(R.id.ivProfileImage) ProfilePictureView ivProfileImage;
     @InjectView(R.id.tvName) TextView tvName;
     @InjectView(R.id.tvLikes) TextView tvLikes;
     @InjectView(R.id.tvDislikes) TextView tvDislikes;
@@ -61,11 +60,10 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.inject(this, view);
         User user = getArguments().getParcelable("user");
-        String profileImageUrl = user.getProfileImage();
-        Picasso.with(getActivity()).load(profileImageUrl).into(ivProfileImage);
         tvName.setText(user.getFullName());
         tvLikes.setText(user.getFoodsLiked());
         tvDislikes.setText(user.getFoodsDisliked());
+        ivProfileImage.setProfileId(user.getUid().replace("facebook:", ""));
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +72,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+
         return view;
     }
 

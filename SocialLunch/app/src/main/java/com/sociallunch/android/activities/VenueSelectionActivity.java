@@ -16,7 +16,6 @@ import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.VenueSelectionPagerAdapter;
 import com.sociallunch.android.fragments.VenueSelectionListFragment;
 import com.sociallunch.android.fragments.VenueSelectionMapFragment;
-import com.sociallunch.android.models.User;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.models.YelpSearchAPIResponse;
 import com.sociallunch.android.net.YelpAPI;
@@ -123,6 +122,8 @@ public class VenueSelectionActivity extends ActionBarActivity implements
         mWorkerFragment.mSearchResults.addAll(result.venues);
         VenueSelectionListFragment venueSelectionListFragment = (VenueSelectionListFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.LIST.ordinal());
         venueSelectionListFragment.updateItems(mWorkerFragment.mSearchResults);
+        VenueSelectionMapFragment venueSelectionMapFragment = (VenueSelectionMapFragment) venueSelectionPagerAdapter.getItem(VenueSelectionPagerAdapter.VenueSelectionTabIndex.MAP.ordinal());
+        venueSelectionMapFragment.updateItems(mWorkerFragment.mSearchResults);
     }
 
     @Override

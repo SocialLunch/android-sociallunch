@@ -93,7 +93,6 @@ public class SearchListFragment extends ListFragment {
         public void selectSuggestion(Suggestion suggestion);
     }
 
-
     public void updateItems(ArrayList<Suggestion> suggestions) {
         if (aSuggestions != null) {
             aSuggestions.clear();

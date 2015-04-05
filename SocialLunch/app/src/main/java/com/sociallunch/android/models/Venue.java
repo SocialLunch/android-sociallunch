@@ -3,6 +3,8 @@ package com.sociallunch.android.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +28,7 @@ public class Venue implements Parcelable {
     public String imageUrl;
     public Integer rating;
     public String ratingImgUrl;
-    public double latitude;
-    public double longitude;
+    public LatLng coordinate;
     public String displayAddress;
     public String categories;
 
@@ -63,8 +64,9 @@ public class Venue implements Parcelable {
                 }
                 if (jsonLocation.has(RESPONSE_KEY_COORDINATE)) {
                     JSONObject jsonCoordinate = jsonLocation.getJSONObject(RESPONSE_KEY_COORDINATE);
-                    venue.latitude = jsonCoordinate.getDouble(RESPONSE_KEY_LATITUDE);
-                    venue.longitude = jsonCoordinate.getDouble(RESPONSE_KEY_LONGITUDE);
+                    double latitude = jsonCoordinate.getDouble(RESPONSE_KEY_LATITUDE);
+                    double longitude = jsonCoordinate.getDouble(RESPONSE_KEY_LONGITUDE);
+                    venue.coordinate = new LatLng(latitude, longitude);
                 }
             }
             if (jsonObject.has(RESPONSE_KEY_CATEGORIES)) {
@@ -125,8 +127,8 @@ public class Venue implements Parcelable {
         out.writeString(imageUrl);
         out.writeInt(rating);
         out.writeString(ratingImgUrl);
-        out.writeDouble(latitude);
-        out.writeDouble(longitude);
+        out.writeDouble(coordinate.latitude);
+        out.writeDouble(coordinate.longitude);
         out.writeString(displayAddress);
         out.writeString(categories);
     }
@@ -147,8 +149,9 @@ public class Venue implements Parcelable {
         imageUrl = in.readString();
         rating = in.readInt();
         ratingImgUrl = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        double latitude = in.readDouble();
+        double longitude = in.readDouble();
+        coordinate = new LatLng(latitude, longitude);
         displayAddress = in.readString();
         categories = in.readString();
 

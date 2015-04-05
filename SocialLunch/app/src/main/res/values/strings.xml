@@ -28,7 +28,6 @@
     <string name="label_cancel">Cancel</string>
     <string name="label_suggest">Suggest</string>
     <string name="title_activity_venue_selection">Pick a venue</string>
-    <string name="item_venue_label_name" formatted="false">%d. %s</string>
     <string name="title_activity_suggestion">Suggestion</string>
 
 </resources>

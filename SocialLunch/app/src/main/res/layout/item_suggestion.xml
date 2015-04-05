@@ -23,7 +23,6 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="@string/item_venue_label_name"
             android:id="@+id/tvName" />
         <ImageView
             android:layout_width="84dip"

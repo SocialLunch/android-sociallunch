@@ -54,7 +54,7 @@ public class SuggestionsArrayAdapter extends ArrayAdapter<Suggestion> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // Populate data into the template view using the data object
-        viewHolder.tvName.setText(String.format(getContext().getString(R.string.item_venue_label_name), position + 1, suggestion.venue.name));
+        viewHolder.tvName.setText(suggestion.venue.name);
         Picasso.with(getContext()).load(Uri.parse(suggestion.venue.imageUrl)).into(viewHolder.ivImage);
         Picasso.with(getContext()).load(Uri.parse(suggestion.venue.ratingImgUrl)).into(viewHolder.ivRating);
         viewHolder.tvAddress.setText(suggestion.venue.displayAddress);

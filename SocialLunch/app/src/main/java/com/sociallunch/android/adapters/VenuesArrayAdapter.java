@@ -51,7 +51,7 @@ public class VenuesArrayAdapter extends ArrayAdapter<Venue> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // Populate data into the template view using the data object
-        viewHolder.tvName.setText(String.format(getContext().getString(R.string.item_venue_label_name), position + 1, venue.name));
+        viewHolder.tvName.setText(venue.name);
         Picasso.with(getContext()).load(Uri.parse(venue.imageUrl)).into(viewHolder.ivImage);
         Picasso.with(getContext()).load(Uri.parse(venue.ratingImgUrl)).into(viewHolder.ivRating);
         viewHolder.tvAddress.setText(venue.displayAddress);

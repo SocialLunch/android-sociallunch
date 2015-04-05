@@ -21,7 +21,7 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(getLayoutResourceId(), container, false);
         mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -34,6 +34,10 @@ public class MapFragment extends Fragment {
             Toast.makeText(getActivity(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
         return view;
+    }
+
+    public int getLayoutResourceId() {
+        return R.layout.fragment_map;
     }
 
     protected void loadMap(GoogleMap googleMap) {

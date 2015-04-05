@@ -28,7 +28,8 @@ public class Venue implements Parcelable {
     public String imageUrl;
     public Integer rating;
     public String ratingImgUrl;
-    public LatLng coordinate;
+    public double latitude;
+    public double longitude;
     public String displayAddress;
     public String categories;
 
@@ -64,9 +65,8 @@ public class Venue implements Parcelable {
                 }
                 if (jsonLocation.has(RESPONSE_KEY_COORDINATE)) {
                     JSONObject jsonCoordinate = jsonLocation.getJSONObject(RESPONSE_KEY_COORDINATE);
-                    double latitude = jsonCoordinate.getDouble(RESPONSE_KEY_LATITUDE);
-                    double longitude = jsonCoordinate.getDouble(RESPONSE_KEY_LONGITUDE);
-                    venue.coordinate = new LatLng(latitude, longitude);
+                    venue.latitude = jsonCoordinate.getDouble(RESPONSE_KEY_LATITUDE);
+                    venue.longitude = jsonCoordinate.getDouble(RESPONSE_KEY_LONGITUDE);
                 }
             }
             if (jsonObject.has(RESPONSE_KEY_CATEGORIES)) {
@@ -127,8 +127,8 @@ public class Venue implements Parcelable {
         out.writeString(imageUrl);
         out.writeInt(rating);
         out.writeString(ratingImgUrl);
-        out.writeDouble(coordinate.latitude);
-        out.writeDouble(coordinate.longitude);
+        out.writeDouble(latitude);
+        out.writeDouble(longitude);
         out.writeString(displayAddress);
         out.writeString(categories);
     }
@@ -149,9 +149,8 @@ public class Venue implements Parcelable {
         imageUrl = in.readString();
         rating = in.readInt();
         ratingImgUrl = in.readString();
-        double latitude = in.readDouble();
-        double longitude = in.readDouble();
-        coordinate = new LatLng(latitude, longitude);
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         displayAddress = in.readString();
         categories = in.readString();
 

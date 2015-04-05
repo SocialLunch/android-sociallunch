@@ -1,65 +1,45 @@
 package com.sociallunch.android.activities;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.application.OAuthApplication;
+import com.sociallunch.android.fragments.SuggestionFragment;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.User;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-
-public class SuggestionActivity extends ActionBarActivity {
+public class SuggestionActivity extends ActionBarActivity implements SuggestionFragment.OnFragmentInteractionListener {
     public static final String EXTRA_SUGGESTION = "extra.BOOKING";
-    private Suggestion suggestion;
-    public ImageView ivImage;
-    public TextView tvName;
-    public ImageView ivRating;
-    public TextView tvAddress;
-    public TextView tvCategories;
-    public TextView tvMeetingTime;
+    private String suggestionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestion);
 
-        if (getIntent() != null) {
-            suggestion = getIntent().getParcelableExtra(EXTRA_SUGGESTION);
-        }
-
         // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ivImage = (ImageView) findViewById(R.id.ivImage);
-        tvName = (TextView) findViewById(R.id.tvName);
-        ivRating = (ImageView) findViewById(R.id.ivRating);
-        tvAddress = (TextView) findViewById(R.id.tvAddress);
-        tvCategories = (TextView) findViewById(R.id.tvCategories);
-        tvMeetingTime = (TextView) findViewById(R.id.tvMeetingTime);
+        if (getIntent() != null) {
+            Suggestion suggestion = getIntent().getParcelableExtra(EXTRA_SUGGESTION);
+            suggestionId = suggestion.id;
 
-        updateViews();
-    }
-
-    public void updateViews() {
-        tvName.setText(suggestion.venue.name);
-        Picasso.with(this).load(Uri.parse(suggestion.venue.imageUrl)).into(ivImage);
-        Picasso.with(this).load(Uri.parse(suggestion.venue.ratingImgUrl)).into(ivRating);
-        tvAddress.setText(suggestion.venue.displayAddress);
-        tvCategories.setText(suggestion.venue.categories);
-        SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
-        tvMeetingTime.setText(String.format(getString(R.string.create_suggestion_label_meeting_time), sdf.format(suggestion.meetingTime.getTime())));
+            // Begin the transaction
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            // Replace the container with the new fragment
+            ft.replace(R.id.flContent, SuggestionFragment.newInstance(suggestion));
+            // or ft.add(R.id.your_placeholder, new FooFragment());
+            // Execute the changes specified
+            ft.commit();
+        }
     }
 
     @Override
@@ -89,8 +69,7 @@ public class SuggestionActivity extends ActionBarActivity {
         User user = application.getCurrentUser();
 
         i.putExtra("user", user);
-//        i.putExtra("identifier", suggestion.id);
-        i.putExtra("identifier", "1234");
+        i.putExtra("identifier", suggestionId);
         startActivity(i);
     }
 }

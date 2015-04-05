@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends ActionBarActivity implements
@@ -43,7 +46,8 @@ public class MainActivity extends ActionBarActivity implements
     private FragmentNavigationDrawer dlDrawer;
     private NavDrawerSelectedIndex navDrawerSelectedIndex;
     private SearchWorkerFragment mSearchWorkerFragment;
-    private SearchFragment mSearchFragment;
+    private SearchListFragment mSearchListFragment;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,27 @@ public class MainActivity extends ActionBarActivity implements
 
         if (navDrawerSelectedIndex == NavDrawerSelectedIndex.SEARCH) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (mSearchWorkerFragment != null) {
+                        mSearchWorkerFragment.filterSuggestions(query);
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (newText.isEmpty()) {
+                        if (mSearchWorkerFragment != null) {
+                            mSearchWorkerFragment.filterSuggestions(null);
+                        }
+                    }
+                    return false;
+                }
+            });
         }
 
         return true;
@@ -145,9 +170,10 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onSearchFragmentAttached(SearchFragment searchFragment) {
         navDrawerSelectedIndex = NavDrawerSelectedIndex.SEARCH;
-        mSearchFragment = searchFragment;
         setTitle(getString(R.string.search_fragment_title));
         invalidateOptionsMenu();
+
+        mSearchWorkerFragment.fetchSuggestions();
     }
 
     @Override
@@ -166,26 +192,30 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void requestToCreateSuggestion(Venue venue, Calendar meetingTime) {
-        Suggestion suggestion = new Suggestion(venue, meetingTime);
-        //TODO-TEMP: store new suggestion in FireBase
+        mSearchWorkerFragment.addSuggestion(venue, meetingTime);
+    }
 
-        mSearchWorkerFragment.mSearchResults.add(suggestion);
-
-        if (mSearchFragment != null) {
-            mSearchFragment.updateViews(mSearchWorkerFragment.mSearchResults);
-        }
+    @Override
+    public void onSearchListFragmentAttached(SearchListFragment searchListFragment) {
+        mSearchListFragment = searchListFragment;
     }
 
     @Override
     public void selectSuggestion(Suggestion suggestion) {
-//        Intent returnIntent = new Intent();
-//        returnIntent.putExtra(RESULT_SELECTED_SUGGESTION, suggestion);
-//        setResult(RESULT_OK, returnIntent);
-//        finish();
-
-
         Intent intent = new Intent(this, SuggestionActivity.class);
         intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestToRefresh() {
+        mSearchWorkerFragment.fetchSuggestions();
+    }
+
+    @Override
+    public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions) {
+        if (mSearchListFragment != null) {
+            mSearchListFragment.updateItems(suggestions);
+        }
     }
 }

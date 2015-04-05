@@ -26,15 +26,6 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
     private SearchFragmentPagerAdapter searchFragmentPagerAdapter;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -47,12 +38,7 @@ public class SearchFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new SearchFragment();
     }
 
     public SearchFragment() {
@@ -62,10 +48,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -121,10 +103,5 @@ public class SearchFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         public void onSearchFragmentAttached(SearchFragment searchFragment);
-    }
-
-    public void updateViews(ArrayList<Suggestion> suggestions) {
-        SearchListFragment searchListFragment = (SearchListFragment) searchFragmentPagerAdapter.getItem(SearchFragmentPagerAdapter.SearchTabIndex.LIST.ordinal());
-        searchListFragment.updateItems(suggestions);
     }
 }

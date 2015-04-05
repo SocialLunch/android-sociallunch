@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.activities.ChatActivity;
+import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.User;
 
 /**
@@ -38,8 +39,6 @@ public class UpcomingSessionFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment UpcomingSessionFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -74,12 +73,8 @@ public class UpcomingSessionFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ChatActivity.class);
-                User user = new User();
-
-                // TODO: Remove once user is populated
-                user.setFullName("Jonny Appleseed");
-                user.setProfileImage("https://media.licdn.com/media/p/4/000/15b/027/1a18058.jpg");
-                // End TODO
+                OAuthApplication application = (OAuthApplication) getActivity().getApplication();
+                User user = application.getCurrentUser();
 
                 i.putExtra("user", user);
                 i.putExtra("identifier","1234");

@@ -86,13 +86,7 @@ public class SuggestionActivity extends ActionBarActivity {
     public void launchChat() {
         Intent i = new Intent(this, ChatActivity.class);
         OAuthApplication application = (OAuthApplication) getApplication();
-//        User user = application.getCurrentUser();
-        User user = new User();
-
-        // TODO: Remove once user is populated
-        user.setFullName("Jonny Appleseed");
-        user.setProfileImage("https://media.licdn.com/media/p/4/000/15b/027/1a18058.jpg");
-        // End TODO
+        User user = application.getCurrentUser();
 
         i.putExtra("user", user);
 //        i.putExtra("identifier", suggestion.id);

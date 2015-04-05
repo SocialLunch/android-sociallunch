@@ -103,6 +103,7 @@ public class CreateProfileActivity extends ActionBarActivity {
 
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
     }
 
     @Override

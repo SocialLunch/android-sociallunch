@@ -10,8 +10,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
@@ -27,7 +27,6 @@ import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -40,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements
         CreateSuggestionDialogFragment.OnFragmentInteractionListener,
         FilterSuggestionDialogFragment.OnFragmentInteractionListener,
         SearchWorkerFragment.OnFragmentInteractionListener {
-    public static final String RESULT_SELECTED_SUGGESTION = "result.RESULT_SELECTED_SUGGESTION";
+    public static final String RESULT_SELECTED_SUGGESTION = "result.SELECTED_SUGGESTION";
 
     public enum NavDrawerSelectedIndex {
         SEARCH,
@@ -122,6 +121,13 @@ public class MainActivity extends ActionBarActivity implements
                     return false;
                 }
             });
+            if (mSearchWorkerFragment.mQuery != null && !mSearchWorkerFragment.mQuery.isEmpty()) {
+                searchView.setQuery(mSearchWorkerFragment.mQuery, false);
+                searchView.setIconified(false);
+            }
+        } else if (searchView != null) {
+            InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
         }
 
         return true;
@@ -139,11 +145,7 @@ public class MainActivity extends ActionBarActivity implements
             // as you specify a parent activity in AndroidManifest.xml.
             int id = item.getItemId();
 
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_search) {
-                Toast.makeText(this, getString(R.string.action_search), Toast.LENGTH_SHORT).show();//TODO-TEMP
-                return true;
-            } else if (id == R.id.action_filter) {
+            if (id == R.id.action_filter) {
                 FragmentManager fm = getSupportFragmentManager();
                 FilterSuggestionDialogFragment alertDialog =
                     FilterSuggestionDialogFragment.newInstance(mSearchWorkerFragment.getFilter());

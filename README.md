@@ -69,5 +69,5 @@ You may check out the wireframes at https://thelunchapp.mybalsamiq.com/projects/
 
 ## Demo
 
-![Alt text](/gifs/20150402.gif?raw=true "Demo")
+![Alt text](/gifs/Cap.gif?raw=true "Demo")
 

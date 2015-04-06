@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sociallunch.android">
+    package="com.sociallunch.android" >
 
     <permission
         android:name="com.example.mapdemo.permission.MAPS_RECEIVE"
@@ -25,7 +25,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="RestClient.db" />
@@ -45,8 +45,7 @@
 
         <activity
             android:name=".activities.SignupActivity"
-            android:label="@string/app_name">
-
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,7 +80,11 @@
             android:label="@string/title_activity_venue_selection" />
         <activity
             android:name=".activities.SuggestionActivity"
-            android:label="@string/title_activity_suggestion"></activity>
+            android:label="@string/title_activity_suggestion" />
+        <activity
+            android:name=".activities.SuggestedVenueActivity"
+            android:label="@string/title_activity_suggested_venue" >
+        </activity>
     </application>
 
 </manifest>

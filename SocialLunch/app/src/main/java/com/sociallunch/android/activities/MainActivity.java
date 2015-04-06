@@ -237,8 +237,8 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void selectSuggestedvenue(SuggestedVenue suggestedVenue) {
-        Intent intent = new Intent(this, SuggestionActivity.class);
-        intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestedVenue.suggestions.get(0));//TODO-TEMP
+        Intent intent = new Intent(this, SuggestedVenueActivity.class);
+        intent.putExtra(SuggestedVenueActivity.EXTRA_SUGGESTED_VENUE, suggestedVenue);
         startActivity(intent);
     }
 

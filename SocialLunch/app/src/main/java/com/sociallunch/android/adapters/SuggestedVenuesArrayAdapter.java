@@ -43,7 +43,7 @@ public class SuggestedVenuesArrayAdapter extends ArrayAdapter<SuggestedVenue> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_suggestion, parent, false);
+            convertView = inflater.inflate(R.layout.item_suggested_venue, parent, false);
             viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
             viewHolder.ivRating = (ImageView) convertView.findViewById(R.id.ivRating);

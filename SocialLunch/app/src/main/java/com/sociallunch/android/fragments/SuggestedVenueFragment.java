@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,6 +18,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sociallunch.android.R;
+import com.sociallunch.android.adapters.SuggestionsArrayAdapter;
+import com.sociallunch.android.models.SuggestedVenue;
 import com.sociallunch.android.models.Suggestion;
 import com.squareup.picasso.Picasso;
 
@@ -24,21 +28,23 @@ import java.text.SimpleDateFormat;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SuggestionFragment.OnFragmentInteractionListener} interface
+ * {@link SuggestedVenueFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SuggestionFragment#newInstance} factory method to
+ * Use the {@link SuggestedVenueFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SuggestionFragment extends MapFragment {
-    private static final String ARG_SUGGESTION = "arg.SUGGESTION";
+public class SuggestedVenueFragment extends MapFragment {
+    private static final String ARG_SUGGESTED_VENUE = "arg.SUGGESTED_VENUE";
 
-    private Suggestion suggestion;
+    private SuggestedVenue suggestedVenue;
     public ImageView ivImage;
     public TextView tvName;
     public ImageView ivRating;
     public TextView tvAddress;
     public TextView tvCategories;
-    public TextView tvMeetingTime;
+
+    private SuggestionsArrayAdapter aSuggestions;
+    private ListView lvSuggestions;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,17 +52,18 @@ public class SuggestionFragment extends MapFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment SuggestionFragment.
+     * @return A new instance of fragment SuggestedVenueFragment.
      */
-    public static SuggestionFragment newInstance(Suggestion suggestion) {
-        SuggestionFragment fragment = new SuggestionFragment();
+    // TODO: Rename and change types and number of parameters
+    public static SuggestedVenueFragment newInstance(SuggestedVenue suggestedVenue) {
+        SuggestedVenueFragment fragment = new SuggestedVenueFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_SUGGESTION, suggestion);
+        args.putParcelable(ARG_SUGGESTED_VENUE, suggestedVenue);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SuggestionFragment() {
+    public SuggestedVenueFragment() {
         // Required empty public constructor
     }
 
@@ -64,36 +71,52 @@ public class SuggestionFragment extends MapFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            suggestion = getArguments().getParcelable(ARG_SUGGESTION);
+            suggestedVenue = getArguments().getParcelable(ARG_SUGGESTED_VENUE);
         }
     }
 
     @Override
     public int getLayoutResourceId() {
-        return R.layout.fragment_suggestion;
+        return R.layout.fragment_suggested_venue;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
         ivImage = (ImageView) view.findViewById(R.id.ivImage);
         tvName = (TextView) view.findViewById(R.id.tvName);
         ivRating = (ImageView) view.findViewById(R.id.ivRating);
         tvAddress = (TextView) view.findViewById(R.id.tvAddress);
         tvCategories = (TextView) view.findViewById(R.id.tvCategories);
-        tvMeetingTime = (TextView) view.findViewById(R.id.tvMeetingTime);
+
+        // Find the listview
+        lvSuggestions = (ListView) view.findViewById(R.id.lvSuggestions);
+        // Create the arraylist (data source)
+        aSuggestions = new SuggestionsArrayAdapter(getActivity(), suggestedVenue.suggestions);
+        lvSuggestions.setAdapter(aSuggestions);
+
+        lvSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mListener != null) {
+                    Suggestion suggestion = aSuggestions.getItem(position);
+                    mListener.selectSuggestion(suggestion);
+                }
+            }
+        });
+
         return view;
     }
 
     public void updateViews() {
-        tvName.setText(suggestion.venue.name);
-        Picasso.with(getActivity()).load(Uri.parse(suggestion.venue.imageUrl)).into(ivImage);
-        Picasso.with(getActivity()).load(Uri.parse(suggestion.venue.ratingImgUrl)).into(ivRating);
-        tvAddress.setText(suggestion.venue.displayAddress);
-        tvCategories.setText(suggestion.venue.categories);
+        tvName.setText(suggestedVenue.venue.name);
+        Picasso.with(getActivity()).load(Uri.parse(suggestedVenue.venue.imageUrl)).into(ivImage);
+        Picasso.with(getActivity()).load(Uri.parse(suggestedVenue.venue.ratingImgUrl)).into(ivRating);
+        tvAddress.setText(suggestedVenue.venue.displayAddress);
+        tvCategories.setText(suggestedVenue.venue.categories);
         SimpleDateFormat sdf = new SimpleDateFormat("h:mm aa");
-        tvMeetingTime.setText(String.format(getString(R.string.create_suggestion_label_meeting_time), sdf.format(suggestion.meetingTime.getTime())));
     }
 
     @Override
@@ -101,10 +124,10 @@ public class SuggestionFragment extends MapFragment {
         super.loadMap(googleMap);
 
         if (map != null) {
-            LatLng coordinate = new LatLng(suggestion.venue.latitude, suggestion.venue.longitude);
+            LatLng coordinate = new LatLng(suggestedVenue.venue.latitude, suggestedVenue.venue.longitude);
             MarkerOptions markerOpts = new MarkerOptions()
-                    .title(suggestion.venue.name)
-                    .snippet(suggestion.venue.displayAddress)
+                    .title(suggestedVenue.venue.name)
+                    .snippet(suggestedVenue.venue.displayAddress)
                     .position(coordinate)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
             map.addMarker(markerOpts);
@@ -119,7 +142,7 @@ public class SuggestionFragment extends MapFragment {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement SuggestionFragment.OnFragmentInteractionListener");
+                    + " must implement SuggestedVenueFragment.OnFragmentInteractionListener");
         }
     }
 
@@ -140,6 +163,7 @@ public class SuggestionFragment extends MapFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void selectSuggestion(Suggestion suggestion);
     }
 
     @Override

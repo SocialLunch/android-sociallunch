@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class SuggestionActivity extends ActionBarActivity implements SuggestionFragment.OnFragmentInteractionListener,
                                                                      UsersJoinedFragment.OnFragmentInteractionListener,
                                                                      JoinedWorkerFragment.OnFragmentInteractionListener {
-    public static final String EXTRA_SUGGESTION = "extra.BOOKING";
+    public static final String EXTRA_SUGGESTION = "extra.SUGGESTION";
     private JoinedWorkerFragment mJoinedWorkerFragment;
     private Suggestion suggestion;
 

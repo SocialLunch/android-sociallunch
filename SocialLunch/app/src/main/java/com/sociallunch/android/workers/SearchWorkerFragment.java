@@ -30,7 +30,6 @@ import java.util.HashMap;
 public class SearchWorkerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     public ArrayList<Suggestion> mSuggestions = new ArrayList<>();
-    public ArrayList<Suggestion> mFilteredSuggestions = new ArrayList<>();
     public ArrayList<SuggestedVenue> mFilteredSuggestedVenues = new ArrayList<>();
     public String mQuery;
     private Filter filter;
@@ -75,7 +74,6 @@ public class SearchWorkerFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions);
         public void onUpdatedSuggestedVenues(ArrayList<SuggestedVenue> SuggestedVenues);
     }
 
@@ -129,7 +127,6 @@ public class SearchWorkerFragment extends Fragment {
                 }
                 filteredSuggestions.add(suggestion);
             }
-            mFilteredSuggestions = filteredSuggestions;
         } else {
             String queryInLowerCase = query.toLowerCase();
             for (Suggestion suggestion : mSuggestions) {
@@ -141,17 +138,12 @@ public class SearchWorkerFragment extends Fragment {
                     filteredSuggestions.add(suggestion);
                 }
             }
-            mFilteredSuggestions = filteredSuggestions;
-        }
-
-        if (mListener != null) {
-            mListener.onUpdatedSuggestions(mFilteredSuggestions);
         }
 
         HashMap<String, ArrayList<Suggestion>> suggestionsByVenueId = new HashMap<>();
         ArrayList<SuggestedVenue> suggestedVenues = new ArrayList<>();
 
-        for (Suggestion suggestion : mSuggestions) {
+        for (Suggestion suggestion : filteredSuggestions) {
             if (!suggestionsByVenueId.containsKey(suggestion.venue.yelpId) ) {
                 ArrayList<Suggestion> suggestions = new ArrayList<>();
                 suggestions.add(suggestion);

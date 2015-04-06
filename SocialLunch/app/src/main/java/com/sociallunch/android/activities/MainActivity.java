@@ -25,7 +25,6 @@ import com.sociallunch.android.fragments.UpcomingSessionFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
 import com.sociallunch.android.models.Filter;
 import com.sociallunch.android.models.SuggestedVenue;
-import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
 
@@ -237,9 +236,9 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void selectSuggestion(Suggestion suggestion) {
+    public void selectSuggestedvenue(SuggestedVenue suggestedVenue) {
         Intent intent = new Intent(this, SuggestionActivity.class);
-        intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
+        intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestedVenue.suggestions.get(0));//TODO-TEMP
         startActivity(intent);
     }
 
@@ -249,14 +248,10 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions) {
-        if (mSearchListFragment != null) {
-            mSearchListFragment.updateItems(suggestions);
-        }
-    }
-
-    @Override
     public void onUpdatedSuggestedVenues(ArrayList<SuggestedVenue> suggestedVenues) {
+        if (mSearchListFragment != null) {
+            mSearchListFragment.updateItems(suggestedVenues);
+        }
         if (mSearchMapFragment != null) {
             mSearchMapFragment.updateItems(suggestedVenues);
         }

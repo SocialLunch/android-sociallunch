@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,9 +16,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sociallunch.android.R;
-import com.sociallunch.android.adapters.VenueMarkerInfoWindowAdapter;
+import com.sociallunch.android.adapters.SuggestedVenueMarkerInfoWindowAdapter;
 import com.sociallunch.android.models.SuggestedVenue;
-import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,6 +93,7 @@ public class SearchMapFragment extends MapFragment {
     public interface OnFragmentInteractionListener {
         public void onSearchMapFragmentAttached(SearchMapFragment searchMapFragment);
         public void onMapInSearchMapFragmentLoaded(SearchMapFragment searchMapFragment, GoogleMap googleMap);
+        public void selectSuggestedvenue(SuggestedVenue suggestedVenue);
     }
 
     protected void loadMap(GoogleMap googleMap) {
@@ -112,7 +111,7 @@ public class SearchMapFragment extends MapFragment {
 
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 int length = suggestedVenues.size();
-                final HashMap<Marker, Venue> venuesByMarker = new HashMap<>();
+                final HashMap<Marker, SuggestedVenue> suggestedVenuesByMarker = new HashMap<>();
                 for (int i = 0 ; i < length ; i++) {
                     SuggestedVenue suggestedVenue = suggestedVenues.get(i);
                     LatLng coordinate = new LatLng(suggestedVenue.venue.latitude, suggestedVenue.venue.longitude);
@@ -124,15 +123,22 @@ public class SearchMapFragment extends MapFragment {
                             .position(coordinate)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
                     Marker marker = map.addMarker(markerOpts);
-                    venuesByMarker.put(marker, suggestedVenue.venue);
+                    suggestedVenuesByMarker.put(marker, suggestedVenue);
                     builder.include(coordinate);
                 }
-                map.setInfoWindowAdapter(new VenueMarkerInfoWindowAdapter(getActivity(), venuesByMarker));
+                map.setInfoWindowAdapter(new SuggestedVenueMarkerInfoWindowAdapter(getActivity(), suggestedVenuesByMarker));
                 map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        //TODO-TEMP: navigate to suggested venue activity
-                        Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
+                        if (marker != null) {
+                            SuggestedVenue suggestedVenue = suggestedVenuesByMarker.get(marker);
+
+                            if (suggestedVenue != null) {
+                                if (mListener != null) {
+                                    mListener.selectSuggestedvenue(suggestedVenue);
+                                }
+                            }
+                        }
                     }
                 });
                 if (length > 1) {

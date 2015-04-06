@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.sociallunch.android.R;
-import com.sociallunch.android.adapters.SuggestionsArrayAdapter;
-import com.sociallunch.android.models.Suggestion;
+import com.sociallunch.android.adapters.SuggestedVenuesArrayAdapter;
+import com.sociallunch.android.models.SuggestedVenue;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class SearchListFragment extends Fragment {
-    private ArrayList<Suggestion> suggestions;
-    private SuggestionsArrayAdapter aSuggestions;
+    private ArrayList<SuggestedVenue> suggestedVenues;
+    private SuggestedVenuesArrayAdapter aSuggestedVenues;
     private ListView lvSuggestions;
     private SwipeRefreshLayout swipeContainer;
 
@@ -59,16 +59,16 @@ public class SearchListFragment extends Fragment {
         // Find the listview
         lvSuggestions = (ListView) view.findViewById(R.id.lvSuggestions);
         // Create the arraylist (data source)
-        suggestions = new ArrayList<>();
-        aSuggestions = new SuggestionsArrayAdapter(getActivity(), suggestions);
-        lvSuggestions.setAdapter(aSuggestions);
+        suggestedVenues = new ArrayList<>();
+        aSuggestedVenues = new SuggestedVenuesArrayAdapter(getActivity(), suggestedVenues);
+        lvSuggestions.setAdapter(aSuggestedVenues);
 
         lvSuggestions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
-                    Suggestion suggestion = (Suggestion) aSuggestions.getItem(position);
-                    mListener.selectSuggestion(suggestion);
+                    SuggestedVenue suggestedVenue = (SuggestedVenue) aSuggestedVenues.getItem(position);
+                    mListener.selectSuggestedvenue(suggestedVenue);
                 }
             }
         });
@@ -124,14 +124,14 @@ public class SearchListFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         public void onSearchListFragmentAttached(SearchListFragment searchListFragment);
-        public void selectSuggestion(Suggestion suggestion);
+        public void selectSuggestedvenue(SuggestedVenue suggestedVenue);
         public void onRequestToRefresh();
     }
 
-    public void updateItems(ArrayList<Suggestion> suggestions) {
-        if (aSuggestions != null) {
-            aSuggestions.clear();
-            aSuggestions.addAll(suggestions);
+    public void updateItems(ArrayList<SuggestedVenue> suggestedVenues) {
+        if (aSuggestedVenues != null) {
+            aSuggestedVenues.clear();
+            aSuggestedVenues.addAll(suggestedVenues);
             lvSuggestions.smoothScrollToPosition(0);
         }
         if (swipeContainer.isRefreshing()) {

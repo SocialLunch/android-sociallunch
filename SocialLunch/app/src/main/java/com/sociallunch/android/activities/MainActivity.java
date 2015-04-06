@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
@@ -26,7 +25,6 @@ import com.sociallunch.android.models.Filter;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -122,6 +120,10 @@ public class MainActivity extends ActionBarActivity implements
                     return false;
                 }
             });
+            if (mSearchWorkerFragment.mQuery != null && !mSearchWorkerFragment.mQuery.isEmpty()) {
+                searchView.setQuery(mSearchWorkerFragment.mQuery, false);
+                searchView.setIconified(false);
+            }
         }
 
         return true;
@@ -140,10 +142,7 @@ public class MainActivity extends ActionBarActivity implements
             int id = item.getItemId();
 
             //noinspection SimplifiableIfStatement
-            if (id == R.id.action_search) {
-                Toast.makeText(this, getString(R.string.action_search), Toast.LENGTH_SHORT).show();//TODO-TEMP
-                return true;
-            } else if (id == R.id.action_filter) {
+            if (id == R.id.action_filter) {
                 FragmentManager fm = getSupportFragmentManager();
                 FilterSuggestionDialogFragment alertDialog =
                     FilterSuggestionDialogFragment.newInstance(mSearchWorkerFragment.getFilter());

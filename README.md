@@ -30,24 +30,18 @@ The user stories are divided into 3 main sections:
 
 ### 2. Discovery
 #### Compulsory
-* List suggestions, which are nearby restaurants suggested by users who are hungry now
-* Create a listing
-  + Indicate hunger level
-  + Suggest a restaurant
-  + Search for nearby restaurants 
+* List suggestions, which are nearby venues suggested by users along with meeting time
+* Create a suggestion
+  + Search for nearby venues 
     - via integration with Yelp API
-  + Suggest time for lunch
+  + Suggest meeting time
 * Join a suggestion
-  + Indicate hunger level
-  + Suggest time for lunch
 
 #### Optional
-* Support filtering of suggestions by attributes in profile
-  + dietary preference, 
-  + age group, 
-  + gender, 
-  + profession, 
-  + company, etc.
+* Support filtering of suggestions
+  + venue name
+  + categories
+  + meeting time 
 * Display reviews of restaurants 
   + via integration with Yelp API
 * History of past matches

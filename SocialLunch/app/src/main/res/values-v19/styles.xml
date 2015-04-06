@@ -8,10 +8,6 @@
         <item name="colorPrimaryDark">@color/light_purple</item>
     </style>
 
-    <style name="AppThemeWithTranslucentStatus" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
-
     <!-- ToolBar -->
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@android:color/white</item>

@@ -74,5 +74,5 @@ You may check out the wireframes at https://thelunchapp.mybalsamiq.com/projects/
 ![Alt text](/gifs/onboarding/20150405.gif?raw=true "Onboarding")
 
 ### Discovery and Communication
-![Alt text](https://s3-ap-southeast-1.amazonaws.com/sebng/projects/android-sociallunch/20150405.gif "Discovery and Communication")
+![Alt text](/gifs/20150405.gif?raw=true "Discovery and Communication")
 

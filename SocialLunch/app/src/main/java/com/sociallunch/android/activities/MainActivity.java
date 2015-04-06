@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
 import com.sociallunch.android.R;
@@ -38,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements
         CreateSuggestionDialogFragment.OnFragmentInteractionListener,
         FilterSuggestionDialogFragment.OnFragmentInteractionListener,
         SearchWorkerFragment.OnFragmentInteractionListener {
-    public static final String RESULT_SELECTED_SUGGESTION = "result.RESULT_SELECTED_SUGGESTION";
+    public static final String RESULT_SELECTED_SUGGESTION = "result.SELECTED_SUGGESTION";
 
     public enum NavDrawerSelectedIndex {
         SEARCH,
@@ -124,6 +125,9 @@ public class MainActivity extends ActionBarActivity implements
                 searchView.setQuery(mSearchWorkerFragment.mQuery, false);
                 searchView.setIconified(false);
             }
+        } else if (searchView != null) {
+            InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
         }
 
         return true;
@@ -141,7 +145,6 @@ public class MainActivity extends ActionBarActivity implements
             // as you specify a parent activity in AndroidManifest.xml.
             int id = item.getItemId();
 
-            //noinspection SimplifiableIfStatement
             if (id == R.id.action_filter) {
                 FragmentManager fm = getSupportFragmentManager();
                 FilterSuggestionDialogFragment alertDialog =

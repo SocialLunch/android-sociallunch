@@ -5,8 +5,11 @@ Social Lunch is an Android app that matches hungry people, who are nearby and ha
 The user stories are divided into 3 main sections:
 
 1. Onboarding
+  * Led by Kelei
 2. Discovery
+  * Led by Sebastian
 3. Communication
+  * Led by Kenrik
 
 ### 1. Onboarding
 #### Compulsory
@@ -35,7 +38,6 @@ The user stories are divided into 3 main sections:
   + Search for nearby venues 
     - via integration with Yelp API
   + Suggest meeting time
-* Join a suggestion
 
 #### Optional
 * Support filtering of suggestions
@@ -51,15 +53,14 @@ The user stories are divided into 3 main sections:
 
 ### 3. Communication
 #### Compulsory
-* Remote push notification to notify that someone else is interested to go for lunch with user.
-* Remote push notification to notify change of hungry status
-* Remote push notification to notify change of departure / arrival
+* Join a suggestion
 * Allow matched users to message each other.
   + Similar to messaging feature in mobile app of AirBnB or TaskRabbit.
   + Could be implemented using https://www.firebase.com/ or http://www.pubnub.com/
 
-
 #### Optional
+* Remote push notification to notify that someone else is interested to go for lunch with user.
+* Remote push notification to notify change of departure / arrival
 * Send email with deep linking to notify user that he/she has received a message.
 * Allow user to set an alarm so that they will receive a lunch reminder via local push notification.
 * Address Book Spam.. Um.. Sharing. 
@@ -69,5 +70,9 @@ You may check out the wireframes at https://thelunchapp.mybalsamiq.com/projects/
 
 ## Demo
 
-![Alt text](/gifs/Cap.gif?raw=true "Demo")
+### Onboarding
+![Alt text](/gifs/onboarding/20150405.gif?raw=true "Onboarding")
+
+### Discovery and Communication
+![Alt text](https://s3-ap-southeast-1.amazonaws.com/sebng/projects/android-sociallunch/20150405.gif "Discovery and Communication")
 

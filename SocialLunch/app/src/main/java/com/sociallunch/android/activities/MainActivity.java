@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.sociallunch.android.R;
 import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
 import com.sociallunch.android.dialogs.FilterSuggestionDialogFragment;
@@ -23,6 +24,7 @@ import com.sociallunch.android.fragments.SearchMapFragment;
 import com.sociallunch.android.fragments.UpcomingSessionFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
 import com.sociallunch.android.models.Filter;
+import com.sociallunch.android.models.SuggestedVenue;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
@@ -50,6 +52,7 @@ public class MainActivity extends ActionBarActivity implements
     private NavDrawerSelectedIndex navDrawerSelectedIndex;
     private SearchWorkerFragment mSearchWorkerFragment;
     private SearchListFragment mSearchListFragment;
+    private SearchMapFragment mSearchMapFragment;
     private SearchView searchView;
 
     @Override
@@ -222,6 +225,19 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void onSearchMapFragmentAttached(SearchMapFragment searchMapFragment) {
+        mSearchMapFragment = searchMapFragment;
+    }
+
+    @Override
+    public void onMapInSearchMapFragmentLoaded(SearchMapFragment searchMapFragment, GoogleMap googleMap) {
+        //TODO-TEMP: to uncomment
+//        if (searchMapFragment != null && mSearchWorkerFragment != null) {
+//            searchMapFragment.updateItems(mSearchWorkerFragment.mFilteredSuggestedVenues);
+//        }
+    }
+
+    @Override
     public void selectSuggestion(Suggestion suggestion) {
         Intent intent = new Intent(this, SuggestionActivity.class);
         intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
@@ -237,6 +253,13 @@ public class MainActivity extends ActionBarActivity implements
     public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions) {
         if (mSearchListFragment != null) {
             mSearchListFragment.updateItems(suggestions);
+        }
+    }
+
+    @Override
+    public void onUpdatedSuggestedVenues(ArrayList<SuggestedVenue> suggestedVenues) {
+        if (mSearchMapFragment != null) {
+            mSearchMapFragment.updateItems(suggestedVenues);
         }
     }
 }

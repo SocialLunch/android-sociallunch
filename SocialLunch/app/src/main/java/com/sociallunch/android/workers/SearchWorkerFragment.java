@@ -11,12 +11,13 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.Filter;
+import com.sociallunch.android.models.SuggestedVenue;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -30,6 +31,7 @@ public class SearchWorkerFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     public ArrayList<Suggestion> mSuggestions = new ArrayList<>();
     public ArrayList<Suggestion> mFilteredSuggestions = new ArrayList<>();
+    public ArrayList<SuggestedVenue> mFilteredSuggestedVenues = new ArrayList<>();
     public String mQuery;
     private Filter filter;
 
@@ -74,6 +76,7 @@ public class SearchWorkerFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         public void onUpdatedSuggestions(ArrayList<Suggestion> suggestions);
+        public void onUpdatedSuggestedVenues(ArrayList<SuggestedVenue> SuggestedVenues);
     }
 
     public void addSuggestion(Venue venue, Calendar meetingTime) {
@@ -98,9 +101,11 @@ public class SearchWorkerFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 ArrayList<Suggestion> suggestions = new ArrayList<>();
-                for (DataSnapshot child : snapshot.getChildren()) {
-                    Suggestion suggestion = child.getValue(Suggestion.class);
-                    suggestions.add(suggestion);
+                if (snapshot.hasChildren()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        Suggestion suggestion = child.getValue(Suggestion.class);
+                        suggestions.add(suggestion);
+                    }
                 }
                 mSuggestions = suggestions;
                 filterSuggestions(mQuery);
@@ -141,6 +146,31 @@ public class SearchWorkerFragment extends Fragment {
 
         if (mListener != null) {
             mListener.onUpdatedSuggestions(mFilteredSuggestions);
+        }
+
+        HashMap<String, ArrayList<Suggestion>> suggestionsByVenueId = new HashMap<>();
+        ArrayList<SuggestedVenue> suggestedVenues = new ArrayList<>();
+
+        for (Suggestion suggestion : mSuggestions) {
+            if (!suggestionsByVenueId.containsKey(suggestion.venue.yelpId) ) {
+                ArrayList<Suggestion> suggestions = new ArrayList<>();
+                suggestions.add(suggestion);
+                suggestionsByVenueId.put(suggestion.venue.yelpId, suggestions);
+                suggestedVenues.add(new SuggestedVenue(suggestion.venue));
+            } else {
+                ArrayList<Suggestion> suggestions = suggestionsByVenueId.get(suggestion.venue.yelpId);
+                suggestions.add(suggestion);
+            }
+        }
+
+        for (SuggestedVenue suggestedVenue : suggestedVenues) {
+            suggestedVenue.suggestions = suggestionsByVenueId.get(suggestedVenue.venue.yelpId);
+        }
+
+        mFilteredSuggestedVenues = suggestedVenues;
+
+        if (mListener != null) {
+            mListener.onUpdatedSuggestedVenues(mFilteredSuggestedVenues);
         }
     }
 

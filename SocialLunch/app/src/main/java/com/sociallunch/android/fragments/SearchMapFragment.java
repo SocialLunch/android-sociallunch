@@ -6,12 +6,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sociallunch.android.models.Suggestion;
+import com.sociallunch.android.R;
+import com.sociallunch.android.adapters.VenueMarkerInfoWindowAdapter;
+import com.sociallunch.android.models.SuggestedVenue;
+import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +43,7 @@ public class SearchMapFragment extends MapFragment {
      * @return A new instance of fragment SearchMapFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchMapFragment newInstance(/*String param1, String param2*/) {
+    public static SearchMapFragment newInstance() {
         return new SearchMapFragment();
     }
 
@@ -56,6 +67,9 @@ public class SearchMapFragment extends MapFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            if (mListener != null) {
+                mListener.onSearchMapFragmentAttached(this);
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement SearchMapFragment.OnFragmentInteractionListener");
@@ -79,5 +93,50 @@ public class SearchMapFragment extends MapFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        public void onSearchMapFragmentAttached(SearchMapFragment searchMapFragment);
+        public void onMapInSearchMapFragmentLoaded(SearchMapFragment searchMapFragment, GoogleMap googleMap);
+    }
+
+    protected void loadMap(GoogleMap googleMap) {
+        super.loadMap(googleMap);
+
+        if (map != null && mListener != null) {
+            mListener.onMapInSearchMapFragmentLoaded(this, map);
+        }
+    }
+
+    public void updateItems(ArrayList<SuggestedVenue> suggestedVenues) {
+        if (map != null) {
+            map.clear();
+            if (!suggestedVenues.isEmpty()) {
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                int length = suggestedVenues.size();
+                final HashMap<Marker, Venue> venuesByMarker = new HashMap<>();
+                for (int i = 0 ; i < length ; i++) {
+                    SuggestedVenue suggestedVenue = suggestedVenues.get(i);
+                    LatLng coordinate = new LatLng(suggestedVenue.venue.latitude, suggestedVenue.venue.longitude);
+                    MarkerOptions markerOpts = new MarkerOptions()
+                            .title(suggestedVenue.venue.name)
+                            .position(coordinate)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_venue));
+                    Marker marker = map.addMarker(markerOpts);
+                    venuesByMarker.put(marker, suggestedVenue.venue);
+                    builder.include(coordinate);
+                }
+                map.setInfoWindowAdapter(new VenueMarkerInfoWindowAdapter(getActivity(), venuesByMarker));
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        //TODO-TEMP: navigate to suggested venue activity
+                        Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                LatLngBounds bounds = builder.build();
+                int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                map.moveCamera(cu);
+            }
+        }
     }
 }

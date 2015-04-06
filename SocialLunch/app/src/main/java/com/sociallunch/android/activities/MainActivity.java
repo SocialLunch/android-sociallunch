@@ -15,15 +15,18 @@ import android.widget.Toast;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
+import com.sociallunch.android.dialogs.FilterSuggestionDialogFragment;
 import com.sociallunch.android.fragments.ProfileFragment;
 import com.sociallunch.android.fragments.SearchFragment;
 import com.sociallunch.android.fragments.SearchListFragment;
 import com.sociallunch.android.fragments.SearchMapFragment;
 import com.sociallunch.android.fragments.UpcomingSessionFragment;
 import com.sociallunch.android.layouts.FragmentNavigationDrawer;
+import com.sociallunch.android.models.Filter;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
 import com.sociallunch.android.workers.SearchWorkerFragment;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements
         UpcomingSessionFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         CreateSuggestionDialogFragment.OnFragmentInteractionListener,
+        FilterSuggestionDialogFragment.OnFragmentInteractionListener,
         SearchWorkerFragment.OnFragmentInteractionListener {
     public static final String RESULT_SELECTED_SUGGESTION = "result.RESULT_SELECTED_SUGGESTION";
 
@@ -140,7 +144,10 @@ public class MainActivity extends ActionBarActivity implements
                 Toast.makeText(this, getString(R.string.action_search), Toast.LENGTH_SHORT).show();//TODO-TEMP
                 return true;
             } else if (id == R.id.action_filter) {
-                Toast.makeText(this, getString(R.string.action_filter), Toast.LENGTH_SHORT).show();//TODO-TEMP
+                FragmentManager fm = getSupportFragmentManager();
+                FilterSuggestionDialogFragment alertDialog =
+                    FilterSuggestionDialogFragment.newInstance(mSearchWorkerFragment.getFilter());
+                alertDialog.show(fm, FilterSuggestionDialogFragment.class.toString());
                 return true;
             } else if (id == R.id.action_suggest) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -193,6 +200,18 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void requestToCreateSuggestion(Venue venue, Calendar meetingTime) {
         mSearchWorkerFragment.addSuggestion(venue, meetingTime);
+    }
+
+    @Override
+    public void filterSuggestions(Calendar earliestMeetingTime, Calendar latestMeetingTime) {
+        Filter filter = mSearchWorkerFragment.getFilter();
+        if (filter == null) {
+            filter = new Filter();
+        }
+        filter.setEarliestMeetingTime(earliestMeetingTime);
+        filter.setLatestMeetingTime(latestMeetingTime);
+        mSearchWorkerFragment.setFilter(filter);
+        onRequestToRefresh();
     }
 
     @Override

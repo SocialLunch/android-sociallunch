@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="22dip"
+              android:paddingRight="22dip"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btnEarliestMeetingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_suggestion_earliest_time"
+        style="?attr/holoSpinnerStyle"/>
+
+    <Button
+        android:id="@+id/btnLatestMeetingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_suggestion_latest_time"
+        style="?attr/holoSpinnerStyle"/>
+</LinearLayout>

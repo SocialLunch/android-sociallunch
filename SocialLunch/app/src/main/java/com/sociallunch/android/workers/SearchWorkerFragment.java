@@ -10,8 +10,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.sociallunch.android.application.OAuthApplication;
+import com.sociallunch.android.models.Filter;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.Venue;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +31,7 @@ public class SearchWorkerFragment extends Fragment {
     public ArrayList<Suggestion> mSuggestions = new ArrayList<>();
     public ArrayList<Suggestion> mFilteredSuggestions = new ArrayList<>();
     public String mQuery;
+    private Filter filter;
 
     public static SearchWorkerFragment newInstance() {
         return new SearchWorkerFragment();
@@ -112,13 +115,22 @@ public class SearchWorkerFragment extends Fragment {
 
     public void filterSuggestions(String query) {
         mQuery = query;
+        ArrayList<Suggestion> filteredSuggestions = new ArrayList<>();
 
         if (query == null || query.isEmpty()) {
-            mFilteredSuggestions = mSuggestions;
+            for (Suggestion suggestion : mSuggestions) {
+                if (!suggestionPassesFilter(suggestion)) {
+                    continue;
+                }
+                filteredSuggestions.add(suggestion);
+            }
+            mFilteredSuggestions = filteredSuggestions;
         } else {
-            ArrayList<Suggestion> filteredSuggestions = new ArrayList<>();
             String queryInLowerCase = query.toLowerCase();
             for (Suggestion suggestion : mSuggestions) {
+                if (!suggestionPassesFilter(suggestion)) {
+                    continue;
+                }
                 if (suggestion.venue.name.toLowerCase().contains(queryInLowerCase) ||
                         (suggestion.venue.categories != null && !suggestion.venue.categories.isEmpty() && suggestion.venue.categories.toLowerCase().contains(queryInLowerCase))) {
                     filteredSuggestions.add(suggestion);
@@ -130,5 +142,28 @@ public class SearchWorkerFragment extends Fragment {
         if (mListener != null) {
             mListener.onUpdatedSuggestions(mFilteredSuggestions);
         }
+    }
+
+    private boolean suggestionPassesFilter(Suggestion suggestion) {
+        if (filter == null) {
+            return true;
+        }
+        if (filter.getEarliestMeetingTime() != null &&
+            filter.getEarliestMeetingTime().compareTo(suggestion.meetingTime) > 0) {
+            return false;
+        }
+        if (filter.getLatestMeetingTime() != null &&
+            filter.getLatestMeetingTime().compareTo(suggestion.meetingTime) < 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public Filter getFilter() {
+        return filter;
     }
 }

@@ -106,6 +106,9 @@ public class VenueSelectionMapFragment extends MapFragment {
                 for (int i = 0 ; i < length ; i++) {
                     Venue venue = venues.get(i);
                     LatLng coordinate = new LatLng(venue.latitude, venue.longitude);
+                    if (length == 1) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, getResources().getInteger(R.integer.lm_map_default_zoom_level)));
+                    }
                     MarkerOptions markerOpts = new MarkerOptions()
                             .title(venue.name)
                             .position(coordinate)
@@ -130,10 +133,12 @@ public class VenueSelectionMapFragment extends MapFragment {
                         }
                     }
                 });
-                LatLngBounds bounds = builder.build();
-                int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-                map.moveCamera(cu);
+                if (length > 1) {
+                    LatLngBounds bounds = builder.build();
+                    int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                    map.moveCamera(cu);
+                }
             }
         }
     }

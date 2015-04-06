@@ -231,10 +231,9 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onMapInSearchMapFragmentLoaded(SearchMapFragment searchMapFragment, GoogleMap googleMap) {
-        //TODO-TEMP: to uncomment
-//        if (searchMapFragment != null && mSearchWorkerFragment != null) {
-//            searchMapFragment.updateItems(mSearchWorkerFragment.mFilteredSuggestedVenues);
-//        }
+        if (searchMapFragment != null && mSearchWorkerFragment != null) {
+            searchMapFragment.updateItems(mSearchWorkerFragment.mFilteredSuggestedVenues);
+        }
     }
 
     @Override

@@ -116,6 +116,9 @@ public class SearchMapFragment extends MapFragment {
                 for (int i = 0 ; i < length ; i++) {
                     SuggestedVenue suggestedVenue = suggestedVenues.get(i);
                     LatLng coordinate = new LatLng(suggestedVenue.venue.latitude, suggestedVenue.venue.longitude);
+                    if (length == 1) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, getResources().getInteger(R.integer.lm_map_default_zoom_level)));
+                    }
                     MarkerOptions markerOpts = new MarkerOptions()
                             .title(suggestedVenue.venue.name)
                             .position(coordinate)
@@ -132,10 +135,12 @@ public class SearchMapFragment extends MapFragment {
                         Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
                     }
                 });
-                LatLngBounds bounds = builder.build();
-                int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-                map.moveCamera(cu);
+                if (length > 1) {
+                    LatLngBounds bounds = builder.build();
+                    int padding = getResources().getInteger(R.integer.lm_map_bounds_padding);
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                    map.moveCamera(cu);
+                }
             }
         }
     }

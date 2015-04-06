@@ -2,9 +2,11 @@ package com.sociallunch.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,30 +15,45 @@ import com.joanzapata.android.iconify.Iconify;
 import com.sociallunch.android.R;
 import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.fragments.SuggestionFragment;
+import com.sociallunch.android.fragments.UsersJoinedFragment;
 import com.sociallunch.android.models.Suggestion;
 import com.sociallunch.android.models.User;
+import com.sociallunch.android.workers.JoinedWorkerFragment;
 
-public class SuggestionActivity extends ActionBarActivity implements SuggestionFragment.OnFragmentInteractionListener {
+import java.util.ArrayList;
+
+public class SuggestionActivity extends ActionBarActivity implements SuggestionFragment.OnFragmentInteractionListener,
+                                                                     UsersJoinedFragment.OnFragmentInteractionListener,
+                                                                     JoinedWorkerFragment.OnFragmentInteractionListener {
     public static final String EXTRA_SUGGESTION = "extra.BOOKING";
-    private String suggestionId;
+    private JoinedWorkerFragment mJoinedWorkerFragment;
+    private Suggestion suggestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestion);
+
+        FragmentManager fm = getSupportFragmentManager();
+        mJoinedWorkerFragment = (JoinedWorkerFragment) fm.findFragmentByTag(JoinedWorkerFragment.class.toString());
+
+        if (mJoinedWorkerFragment == null) {
+            mJoinedWorkerFragment = JoinedWorkerFragment.newInstance();
+            fm.beginTransaction().add(mJoinedWorkerFragment, JoinedWorkerFragment.class.toString()).commit();
+        }
+
         // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent() != null) {
-            Suggestion suggestion = getIntent().getParcelableExtra(EXTRA_SUGGESTION);
-            suggestionId = suggestion.id;
-
+            suggestion = getIntent().getParcelableExtra(EXTRA_SUGGESTION);
             // Begin the transaction
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // Replace the container with the new fragment
             ft.replace(R.id.flContent, SuggestionFragment.newInstance(suggestion));
+            ft.replace(R.id.flJoined, UsersJoinedFragment.newInstance());
             // or ft.add(R.id.your_placeholder, new FooFragment());
             // Execute the changes specified
             ft.commit();
@@ -85,13 +102,36 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
         Intent i = new Intent(this, ChatActivity.class);
         OAuthApplication application = (OAuthApplication) getApplication();
         User user = application.getCurrentUser();
-
         i.putExtra("user", user);
-        i.putExtra("identifier", suggestionId);
+        i.putExtra("identifier", suggestion.id);
         startActivity(i);
     }
 
     public void joinOrLeave() {
+        mJoinedWorkerFragment.joinSuggestion(suggestion);
+    }
 
+    @Override
+    public void onUsersJoinedFragmentAttached(UsersJoinedFragment usersJoinedFragment) {
+
+    }
+
+    @Override
+    public void selectUser(User user) {
+
+    }
+
+    @Override
+    public void onRequestToRefresh() {
+
+    }
+
+    @Override
+    public void onUpdatedJoinedUsers(ArrayList<User> users) {
+        FragmentManager fm = getSupportFragmentManager();
+        UsersJoinedFragment fragment = (UsersJoinedFragment) fm.findFragmentById(R.id.flJoined);
+        if (fragment != null) {
+            Log.d("Blah","WORKED");
+        }
     }
 }

@@ -13,13 +13,16 @@ import android.widget.ListView;
 import com.sociallunch.android.R;
 import com.sociallunch.android.adapters.UserJoinedArrayAdapter;
 import com.sociallunch.android.models.User;
-
 import java.util.ArrayList;
 
 public class UsersJoinedFragment extends Fragment {
 
     public static UsersJoinedFragment newInstance() {
-        return new UsersJoinedFragment();
+        UsersJoinedFragment fragment = new UsersJoinedFragment();
+        Bundle args = new Bundle();
+        //args.putParcelable("user", user);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public UsersJoinedFragment() {
@@ -49,7 +52,7 @@ public class UsersJoinedFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
-                    User user = (User) aJoined.getItem(position);
+                    User user = aJoined.getItem(position);
                     mListener.selectUser(user);
                 }
             }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Calendar;
+import java.util.Map;
 
 public class Suggestion implements Parcelable {
     public static String FIREBASE_OBJECT_NAME = "suggestion";
@@ -11,13 +12,13 @@ public class Suggestion implements Parcelable {
     public Venue venue;
     public Calendar meetingTime;
     public String userId;
+    public Map joined;
 
     public Suggestion() {
     }
 
     public Suggestion(String id, String userId, Venue venue, Calendar meetingTime) {
         this();
-
         this.id = id;
         this.userId = userId;
         this.venue = venue;

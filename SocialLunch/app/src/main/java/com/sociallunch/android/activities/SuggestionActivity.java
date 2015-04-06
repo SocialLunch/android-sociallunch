@@ -72,6 +72,10 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
                 new IconDrawable(this, Iconify.IconValue.fa_thumbs_o_up)
                         .colorRes(R.color.white)
                         .actionBarSize());
+        menu.findItem(R.id.action_decline).setIcon(
+                new IconDrawable(this, Iconify.IconValue.fa_thumbs_o_down)
+                        .colorRes(R.color.white)
+                        .actionBarSize());
         return true;
     }
 
@@ -88,11 +92,11 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
             case R.id.action_chat_icon:
                 launchChat();
                 return true;
-            case R.id.action_join:
-                joinOrLeave();
+            case R.id.action_decline:
+                decline();
                 return true;
             case R.id.action_join_icon:
-                joinOrLeave();
+                join();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -107,23 +111,28 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
         startActivity(i);
     }
 
-    public void joinOrLeave() {
+    public void join() {
         mJoinedWorkerFragment.joinSuggestion(suggestion);
     }
 
+    public void decline() {
+        mJoinedWorkerFragment.joinSuggestion(suggestion);
+    }
+
+
     @Override
     public void onUsersJoinedFragmentAttached(UsersJoinedFragment usersJoinedFragment) {
-
+        mJoinedWorkerFragment.fetchJoinedUsers(suggestion);
     }
 
     @Override
     public void selectUser(User user) {
-
+        // View User Profile?
     }
 
     @Override
     public void onRequestToRefresh() {
-
+        mJoinedWorkerFragment.fetchJoinedUsers(suggestion);
     }
 
     @Override
@@ -131,7 +140,7 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
         FragmentManager fm = getSupportFragmentManager();
         UsersJoinedFragment fragment = (UsersJoinedFragment) fm.findFragmentById(R.id.flJoined);
         if (fragment != null) {
-            Log.d("Blah","WORKED");
+            fragment.updateItems(users);
         }
     }
 }

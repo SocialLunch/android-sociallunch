@@ -87,6 +87,9 @@ public class JoinedWorkerFragment extends Fragment {
                     users.add(user);
                 }
                 mJoined = users;
+                if (mListener != null) {
+                    mListener.onUpdatedJoinedUsers(mJoined);
+                }
             }
 
             @Override

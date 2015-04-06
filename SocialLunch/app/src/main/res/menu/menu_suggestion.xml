@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.sociallunch.android.activities.SuggestionActivity">
     <item
-        android:id="@+id/action_join"
+        android:id="@+id/action_join_icon"
         android:title="@string/action_join"
         android:orderInCategory="100"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_join_icon"
+        android:id="@+id/action_decline"
         android:title="@string/action_join"
         android:orderInCategory="200"
         app:showAsAction="always" />

@@ -40,5 +40,7 @@
     <string name="label_loading">Loading&#8230;</string>
     <string name="title_activity_suggested_venue">Suggestion</string>
     <string name="label_choose_meeting_times">Please choose a meeting time</string>
+    <string name="thumb_up">{fa-thumbs-o-up}</string>
+    <string name="clock">{fa-clock-o}</string>
 
 </resources>

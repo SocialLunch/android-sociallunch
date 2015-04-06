@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.sociallunch.android.R;
 import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.fragments.SuggestionFragment;
@@ -22,7 +24,6 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestion);
-
         // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,6 +47,14 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_suggestion, menu);
+        menu.findItem(R.id.action_chat_icon).setIcon(
+                new IconDrawable(this, Iconify.IconValue.fa_comment_o)
+                        .colorRes(R.color.white)
+                        .actionBarSize());
+        menu.findItem(R.id.action_join_icon).setIcon(
+                new IconDrawable(this, Iconify.IconValue.fa_thumbs_o_up)
+                        .colorRes(R.color.white)
+                        .actionBarSize());
         return true;
     }
 
@@ -59,6 +68,15 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
             case R.id.action_chat:
                 launchChat();
                 return true;
+            case R.id.action_chat_icon:
+                launchChat();
+                return true;
+            case R.id.action_join:
+                joinOrLeave();
+                return true;
+            case R.id.action_join_icon:
+                joinOrLeave();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -71,5 +89,9 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
         i.putExtra("user", user);
         i.putExtra("identifier", suggestionId);
         startActivity(i);
+    }
+
+    public void joinOrLeave() {
+
     }
 }

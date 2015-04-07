@@ -63,16 +63,25 @@ public class JoinedWorkerFragment extends Fragment {
         public void onUpdatedJoinedUsers(ArrayList<User> users);
     }
 
-    public void joinSuggestion(final Suggestion suggestion) {
+    public void joinSuggestion(final Suggestion suggestion, boolean going) {
         OAuthApplication application = (OAuthApplication) getActivity().getApplication();
-        Firebase newSuggestionRef = application.getFirebaseRef().child(Suggestion.FIREBASE_OBJECT_NAME).child(suggestion.id).child("joined").push();
         User user = application.getCurrentUser();
-        newSuggestionRef.setValue(user, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                fetchJoinedUsers(suggestion);
-            }
-        });
+        Firebase newSuggestionRef = application.getFirebaseRef().child(Suggestion.FIREBASE_OBJECT_NAME).child(suggestion.id).child("joined").child(user.getUid());
+        if (going) {
+            newSuggestionRef.setValue(user, new Firebase.CompletionListener() {
+                @Override
+                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                    fetchJoinedUsers(suggestion);
+                }
+            });
+        } else {
+            newSuggestionRef.removeValue(new Firebase.CompletionListener() {
+                @Override
+                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                    fetchJoinedUsers(suggestion);
+                }
+            });
+        }
     }
 
     public void fetchJoinedUsers(Suggestion suggestion) {

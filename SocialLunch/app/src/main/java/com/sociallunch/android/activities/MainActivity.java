@@ -14,6 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.sociallunch.android.R;
 import com.sociallunch.android.dialogs.CreateSuggestionDialogFragment;
 import com.sociallunch.android.dialogs.FilterSuggestionDialogFragment;
@@ -103,6 +105,18 @@ public class MainActivity extends ActionBarActivity implements
         if (navDrawerSelectedIndex == NavDrawerSelectedIndex.SEARCH) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
             MenuItem searchItem = menu.findItem(R.id.action_search);
+            menu.findItem(R.id.action_filter).setIcon(
+                    new IconDrawable(this, Iconify.IconValue.fa_filter)
+                            .colorRes(R.color.white)
+                            .actionBarSize());
+            menu.findItem(R.id.action_suggest).setIcon(
+                    new IconDrawable(this, Iconify.IconValue.fa_plus)
+                            .colorRes(R.color.white)
+                            .actionBarSize());
+            menu.findItem(R.id.action_search).setIcon(
+                    new IconDrawable(this, Iconify.IconValue.fa_search)
+                            .colorRes(R.color.white)
+                            .actionBarSize());
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

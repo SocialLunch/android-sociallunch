@@ -2,17 +2,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.sociallunch.android.activities.SignupActivity">
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ivBackground"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/login_background"/>
+                tools:context="com.sociallunch.android.activities.SignupActivity"
+    android:background="@drawable/login_background">
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -43,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/ivLogoText"
         android:layout_centerHorizontal="true" />
 

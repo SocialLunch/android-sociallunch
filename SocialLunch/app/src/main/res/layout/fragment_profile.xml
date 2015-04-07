@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvName"
             android:textSize="20dp"
+            android:textColor="@color/light_purple"
             android:layout_marginBottom="16dp"
             />
 
@@ -42,12 +43,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvLikesLabel"
             android:text="Likes:"
+            android:textColor="@color/bright_teal"
             android:textStyle="bold"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvLikes"
+            android:textColor="@color/emo_kid"
             android:layout_marginBottom="16dp"
             />
 
@@ -56,11 +59,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvDislikesLabel"
             android:text="Doesn't like:"
+            android:textColor="@color/bright_teal"
             android:textStyle="bold"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/emo_kid"
             android:id="@+id/tvDislikes"
             />
     </LinearLayout>

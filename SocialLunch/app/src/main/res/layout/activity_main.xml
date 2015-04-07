@@ -7,6 +7,7 @@
     <com.sociallunch.android.layouts.FragmentNavigationDrawer xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
+        android:background="@color/emo_kid_light"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -38,6 +39,6 @@
             android:paddingTop="24dp"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0dp"
-            android:background="@android:color/background_light" />
+            android:background="@drawable/nav_bg" />
     </com.sociallunch.android.layouts.FragmentNavigationDrawer>
 </RelativeLayout>

@@ -34,9 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="20dp"
             android:textColor="#536271"
-            android:text="Going |"
+            android:text="I'm Going |"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
         <IconTextView

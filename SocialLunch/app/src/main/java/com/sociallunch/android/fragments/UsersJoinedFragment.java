@@ -20,7 +20,6 @@ public class UsersJoinedFragment extends Fragment {
     public static UsersJoinedFragment newInstance() {
         UsersJoinedFragment fragment = new UsersJoinedFragment();
         Bundle args = new Bundle();
-        //args.putParcelable("user", user);
         fragment.setArguments(args);
         return fragment;
     }

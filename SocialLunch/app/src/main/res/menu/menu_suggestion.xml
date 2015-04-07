@@ -13,14 +13,9 @@
         android:orderInCategory="200"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_chat"
-        android:title="@string/action_chat"
-        android:orderInCategory="300"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_chat_icon"
         android:title="@string/action_chat"
-        android:orderInCategory="400"
+        android:orderInCategory="300"
         app:showAsAction="always" />
 
 </menu>

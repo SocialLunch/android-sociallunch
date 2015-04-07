@@ -86,9 +86,6 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_chat:
-                launchChat();
-                return true;
             case R.id.action_chat_icon:
                 launchChat();
                 return true;
@@ -112,11 +109,11 @@ public class SuggestionActivity extends ActionBarActivity implements SuggestionF
     }
 
     public void join() {
-        mJoinedWorkerFragment.joinSuggestion(suggestion);
+        mJoinedWorkerFragment.joinSuggestion(suggestion,true);
     }
 
     public void decline() {
-        mJoinedWorkerFragment.joinSuggestion(suggestion);
+        mJoinedWorkerFragment.joinSuggestion(suggestion,false);
     }
 
 

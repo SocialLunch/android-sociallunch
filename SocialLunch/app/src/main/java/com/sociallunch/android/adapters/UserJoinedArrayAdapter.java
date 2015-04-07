@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sociallunch.android.R;
 import com.sociallunch.android.models.User;
+import com.sociallunch.android.support.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class UserJoinedArrayAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvName.setText(user.getFullName());
-        Picasso.with(getContext()).load(Uri.parse(user.getProfileImage())).into(viewHolder.ivImage);
+        Picasso.with(getContext()).load(Uri.parse(user.getProfileImage())).transform(new CircleTransform()).into(viewHolder.ivImage);
         return convertView;
     }
 }

@@ -3,5 +3,6 @@
     <color name="dark_purple">#ff6b3e6b</color>
     <color name="light_purple">#ff874d87</color>
     <color name="emo_kid">#536271</color>
+    <color name="emo_kid_light">#F4F6F6</color>
     <color name="bright_teal">#009C8A</color>
 </resources>

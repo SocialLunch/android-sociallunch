@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Map;
 
 public class Suggestion implements Parcelable {
@@ -55,5 +56,12 @@ public class Suggestion implements Parcelable {
         meetingTime.setTimeInMillis(in.readLong());
         this.meetingTime = meetingTime;
         this.venue = in.readParcelable(Venue.class.getClassLoader());
+    }
+
+    public static class SuggestionComparatorByMeetingTime implements Comparator<Suggestion> {
+        @Override
+        public int compare(Suggestion suggestion1, Suggestion suggestion2) {
+            return suggestion1.meetingTime.compareTo(suggestion2.meetingTime);
+        }
     }
 }

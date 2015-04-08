@@ -17,6 +17,7 @@ import com.sociallunch.android.models.Venue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -156,7 +157,10 @@ public class SearchWorkerFragment extends Fragment {
         }
 
         for (SuggestedVenue suggestedVenue : suggestedVenues) {
-            suggestedVenue.suggestions = suggestionsByVenueId.get(suggestedVenue.venue.yelpId);
+            //Sort suggestions based on meeting time
+            ArrayList<Suggestion> suggestions = suggestionsByVenueId.get(suggestedVenue.venue.yelpId);
+            Collections.sort(suggestions, new Suggestion.SuggestionComparatorByMeetingTime());
+            suggestedVenue.suggestions = suggestions;
         }
 
         mFilteredSuggestedVenues = suggestedVenues;

@@ -42,5 +42,7 @@
     <string name="label_choose_meeting_times">Please choose a meeting time</string>
     <string name="thumb_up">{fa-thumbs-o-up}</string>
     <string name="clock">{fa-clock-o}</string>
+    <string name="im_going">I\'m Going |</string>
+    <string name="fake_user">Jonny Appleseed</string>
 
 </resources>

@@ -4,13 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical">
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:id="@+id/llUser"
         android:layout_height="match_parent">
-
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -18,28 +16,34 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:id="@+id/ivProfileImage" />
-
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_margin="5dp"
             android:layout_height="wrap_content"
             android:textColor="#8D1263"
-            android:text="Jonny Appleseed"
+            android:text="@string/fake_user"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:id="@+id/llGoing"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/tvGoing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
             android:textColor="#536271"
-            android:text="I'm Going |"
+            android:text="@string/im_going"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
         <IconTextView
             android:id="@+id/tvThumb"
             android:layout_width="wrap_content"
@@ -50,7 +54,5 @@
             android:textColor="#009C8A"
             android:textSize="26sp"
             android:text="@string/thumb_up"/>
-
     </LinearLayout>
-
 </RelativeLayout>

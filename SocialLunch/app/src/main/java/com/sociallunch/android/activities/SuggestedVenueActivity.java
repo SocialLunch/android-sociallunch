@@ -63,5 +63,12 @@ public class SuggestedVenueActivity extends ActionBarActivity implements Suggest
         Intent intent = new Intent(this, SuggestionActivity.class);
         intent.putExtra(SuggestionActivity.EXTRA_SUGGESTION, suggestion);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

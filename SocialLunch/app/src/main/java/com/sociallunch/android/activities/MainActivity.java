@@ -254,6 +254,7 @@ public class MainActivity extends ActionBarActivity implements
         Intent intent = new Intent(this, SuggestedVenueActivity.class);
         intent.putExtra(SuggestedVenueActivity.EXTRA_SUGGESTED_VENUE, suggestedVenue);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override

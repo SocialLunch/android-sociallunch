@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
         dlDrawer.addNavItem(getString(R.string.search_fragment_title), R.drawable.ic_nav_search, getString(R.string.search_fragment_title), SearchFragment.class);
-        dlDrawer.addNavItem(getString(R.string.upcoming_session_fragment_title), R.drawable.ic_nav_sessions, getString(R.string.upcoming_session_fragment_title), UpcomingSessionFragment.class);
+//        dlDrawer.addNavItem(getString(R.string.upcoming_session_fragment_title), R.drawable.ic_nav_sessions, getString(R.string.upcoming_session_fragment_title), UpcomingSessionFragment.class);
         dlDrawer.addNavItem(getString(R.string.profile_fragment_title), R.drawable.ic_nav_profile, getString(R.string.profile_fragment_title), ProfileFragment.class);
         // Select default
         if (savedInstanceState == null) {

@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="6dip"
+                android:transitionName="suggestion"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -70,6 +71,7 @@
                 android:id="@+id/map"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
+                android:transitionName="map"
                 android:layout_height="200dip" />
 
             <TextView

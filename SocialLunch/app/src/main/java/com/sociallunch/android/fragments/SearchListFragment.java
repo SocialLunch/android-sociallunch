@@ -68,7 +68,8 @@ public class SearchListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
                     SuggestedVenue suggestedVenue = (SuggestedVenue) aSuggestedVenues.getItem(position);
-                    mListener.selectSuggestedvenue(suggestedVenue);
+                    View selectedView = getViewByPosition(position,lvSuggestions);
+                    mListener.selectSuggestedvenue(suggestedVenue,selectedView);
                 }
             }
         });
@@ -90,6 +91,18 @@ public class SearchListFragment extends Fragment {
                 android.R.color.holo_red_light);
 
         return view;
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 
     @Override
@@ -124,7 +137,7 @@ public class SearchListFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         public void onSearchListFragmentAttached(SearchListFragment searchListFragment);
-        public void selectSuggestedvenue(SuggestedVenue suggestedVenue);
+        public void selectSuggestedvenue(SuggestedVenue suggestedVenue, View view);
         public void onRequestToRefresh();
     }
 

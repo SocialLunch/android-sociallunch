@@ -3,6 +3,7 @@ package com.sociallunch.android.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
@@ -250,11 +252,12 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void selectSuggestedvenue(SuggestedVenue suggestedVenue) {
+    public void selectSuggestedvenue(SuggestedVenue suggestedVenue, View view) {
         Intent intent = new Intent(this, SuggestedVenueActivity.class);
         intent.putExtra(SuggestedVenueActivity.EXTRA_SUGGESTED_VENUE, suggestedVenue);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, view, "suggestion");
+        startActivity(intent, options.toBundle());
     }
 
     @Override

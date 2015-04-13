@@ -38,6 +38,8 @@
             android:choiceMode="singleChoice"
             android:paddingTop="24dp"
             android:divider="@android:color/darker_gray"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:dividerHeight="0dp"
             android:background="@drawable/nav_bg" />
     </com.sociallunch.android.layouts.FragmentNavigationDrawer>

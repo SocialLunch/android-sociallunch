@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="6dip"
         android:id="@+id/llMain"
+        android:transitionName="suggestion"
         android:orientation="horizontal">
 
         <ImageView

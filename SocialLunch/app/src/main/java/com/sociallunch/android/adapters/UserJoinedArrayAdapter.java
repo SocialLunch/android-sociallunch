@@ -1,6 +1,7 @@
 package com.sociallunch.android.adapters;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sociallunch.android.R;
+import com.sociallunch.android.application.OAuthApplication;
 import com.sociallunch.android.models.User;
 import com.sociallunch.android.support.CircleTransform;
 import com.squareup.picasso.Picasso;
@@ -30,6 +33,7 @@ public class UserJoinedArrayAdapter extends ArrayAdapter<User> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         User user = getItem(position);
+        User ourUser = ((OAuthApplication) getContext().getApplicationContext()).getCurrentUser();
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -43,6 +47,11 @@ public class UserJoinedArrayAdapter extends ArrayAdapter<User> {
         }
         viewHolder.tvName.setText(user.getFullName());
         Picasso.with(getContext()).load(Uri.parse(user.getProfileImage())).transform(new CircleTransform()).into(viewHolder.ivImage);
+
+        if (!user.getUid().equalsIgnoreCase(ourUser.getUid())) {
+            Toast.makeText(getContext(), user.getFullName() + "Joined Your Suggestion", Toast.LENGTH_SHORT).show();
+        }
+
         return convertView;
     }
 }

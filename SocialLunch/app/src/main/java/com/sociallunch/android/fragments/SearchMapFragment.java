@@ -93,7 +93,7 @@ public class SearchMapFragment extends MapFragment {
     public interface OnFragmentInteractionListener {
         public void onSearchMapFragmentAttached(SearchMapFragment searchMapFragment);
         public void onMapInSearchMapFragmentLoaded(SearchMapFragment searchMapFragment, GoogleMap googleMap);
-        public void selectSuggestedvenue(SuggestedVenue suggestedVenue);
+        public void selectSuggestedvenue(SuggestedVenue suggestedVenue, View view);
     }
 
     protected void loadMap(GoogleMap googleMap) {
@@ -135,7 +135,7 @@ public class SearchMapFragment extends MapFragment {
 
                             if (suggestedVenue != null) {
                                 if (mListener != null) {
-                                    mListener.selectSuggestedvenue(suggestedVenue);
+                                    mListener.selectSuggestedvenue(suggestedVenue,mapFragment.getView());
                                 }
                             }
                         }

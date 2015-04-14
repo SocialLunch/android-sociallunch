@@ -36,7 +36,8 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -44,7 +45,8 @@
 
         <activity
             android:name=".activities.SignupActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,15 +55,18 @@
         </activity>
         <activity
             android:name=".activities.CreateProfileActivity"
-            android:label="@string/title_activity_create_profile" />
+            android:label="@string/title_activity_create_profile"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ChatActivity"
             android:label="@string/title_activity_chat"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppThemeWithTranslucentStatus" />
+            android:theme="@style/AppThemeWithTranslucentStatus"
+            android:screenOrientation="portrait" />
 
         <uses-library
             android:name="com.google.android.maps"
@@ -76,13 +81,16 @@
 
         <activity
             android:name=".activities.VenueSelectionActivity"
-            android:label="@string/title_activity_venue_selection" />
+            android:label="@string/title_activity_venue_selection"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SuggestionActivity"
-            android:label="@string/title_activity_suggestion" />
+            android:label="@string/title_activity_suggestion"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SuggestedVenueActivity"
-            android:label="@string/title_activity_suggested_venue" >
+            android:label="@string/title_activity_suggested_venue"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

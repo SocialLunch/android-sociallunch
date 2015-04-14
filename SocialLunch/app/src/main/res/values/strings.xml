@@ -44,5 +44,6 @@
     <string name="clock">{fa-clock-o}</string>
     <string name="im_going">I\'m Going |</string>
     <string name="fake_user">Jonny Appleseed</string>
+    <string name="title_activity_how_it_works">How it works</string>
 
 </resources>

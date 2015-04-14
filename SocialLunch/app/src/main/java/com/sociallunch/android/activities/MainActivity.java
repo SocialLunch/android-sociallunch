@@ -1,8 +1,10 @@
 package com.sociallunch.android.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
@@ -272,6 +274,19 @@ public class MainActivity extends ActionBarActivity implements
         }
         if (mSearchMapFragment != null) {
             mSearchMapFragment.updateItems(suggestedVenues);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sp = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        if(sp != null && !sp.getBoolean(HowItWorksActivity.PREF_HOW_IT_WORKS_SHOWN, false)) {
+            sp.edit().putBoolean(HowItWorksActivity.PREF_HOW_IT_WORKS_SHOWN, true).apply();
+            Intent intent = new Intent(this, HowItWorksActivity.class);
+            startActivity(intent);
         }
     }
 }

@@ -92,6 +92,11 @@
             android:label="@string/title_activity_suggested_venue"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activities.HowItWorksActivity"
+            android:label="@string/title_activity_how_it_works"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

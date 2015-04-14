@@ -1,12 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sociallunch.android.activities.HowItWorksActivity">
+    android:background="#fff0f0f0">
 
-    <TextView
-        android:text="@string/title_activity_how_it_works"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/how_it_works__pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"/>
 
-</RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dip">
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/how_it_works__tabs"
+            android:layout_width="match_parent"
+            android:layout_height="5dip"
+            android:background="#ffcccccc"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/how_it_works__view_paging_ctrl"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/how_it_works__button_skip"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_transparent_button"
+            android:textSize="18sp"
+            android:textColor="#ff999999"
+            android:text="@string/how_it_works__label_skip"/>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dip"
+            android:layout_marginBottom="8dip"
+            android:background="#ffc9c9c9"/>
+
+        <Button
+            android:id="@+id/how_it_works__button_next"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_transparent_button"
+            android:textSize="18sp"
+            android:textColor="#ff333333"
+            android:text="@string/how_it_works__label_next"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/how_it_works__button_get_started"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_transparent_button"
+        android:textSize="18sp"
+        android:textColor="#ff333333"
+        android:text="@string/how_it_works__label_get_started"
+        android:visibility="gone"/>
+</LinearLayout>

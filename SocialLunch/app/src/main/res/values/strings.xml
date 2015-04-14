@@ -45,5 +45,14 @@
     <string name="im_going">I\'m Going |</string>
     <string name="fake_user">Jonny Appleseed</string>
     <string name="title_activity_how_it_works">How it works</string>
+    <string name="how_it_works__label_create_or_join_title">Create or Join</string>
+    <string name="how_it_works__label_create_or_join_desc">Either suggest a venue or join an existing suggestion.</string>
+    <string name="how_it_works__label_chat_title">Communicate</string>
+    <string name="how_it_works__label_chat_desc">Iron out the details in the group chat.</string>
+    <string name="how_it_works__label_be_social_title">Be Social</string>
+    <string name="how_it_works__label_be_social_desc">Enjoy your meal with friends coworkers or new acquaintances.</string>
+    <string name="how_it_works__label_skip">Skip</string>
+    <string name="how_it_works__label_next">Next</string>
+    <string name="how_it_works__label_get_started">Get Started</string>
 
 </resources>

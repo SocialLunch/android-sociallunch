@@ -71,7 +71,7 @@ You may check out the wireframes at https://thelunchapp.mybalsamiq.com/projects/
 ## Demo
 
 ### Onboarding
-![Alt text](/gifs/onboarding/20150405.gif?raw=true "Onboarding")
+![Alt text](/gifs/onboarding/20150414-how-it-works.gif?raw=true "Onboarding")
 
 ### Discovery and Communication
 ![Alt text](/gifs/20150405.gif?raw=true "Discovery and Communication")

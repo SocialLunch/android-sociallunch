@@ -2,7 +2,9 @@ package com.sociallunch.android.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.ProfilePictureView;
 import com.sociallunch.android.R;
+import com.sociallunch.android.activities.HowItWorksActivity;
 import com.sociallunch.android.activities.SignupActivity;
 import com.sociallunch.android.models.User;
 
@@ -67,6 +70,11 @@ public class ProfileFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sp = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                if(sp != null && sp.getBoolean(HowItWorksActivity.PREF_HOW_IT_WORKS_SHOWN, true)) {
+                    sp.edit().putBoolean(HowItWorksActivity.PREF_HOW_IT_WORKS_SHOWN, false).apply();
+                }
                 LoginManager.getInstance().logOut();
                 Intent i = new Intent(getActivity(), SignupActivity.class);
                 startActivity(i);

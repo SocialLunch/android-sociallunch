@@ -159,14 +159,19 @@ public class SignupActivity extends ActionBarActivity {
                     (value.get("foodsDisliked") == null && value.get("foodsLiked") == null)) {
                     application.setCurrentUser(user);
                     i = new Intent(SignupActivity.this, CreateProfileActivity.class);
+                    userRef.child(authData.getUid()).setValue(user);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 } else {
                     user = User.fromMap(user, value);
                     application.setCurrentUser(user);
                     i = new Intent(SignupActivity.this, MainActivity.class);
+                    userRef.child(authData.getUid()).setValue(user);
+                    finish();
+                    startActivity(i);
+                    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
                 }
-                userRef.child(authData.getUid()).setValue(user);
-                startActivity(i);
-                overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+
             }
             @Override
             public void onCancelled(FirebaseError firebaseError) {
